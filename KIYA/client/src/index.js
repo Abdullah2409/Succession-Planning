@@ -15,25 +15,30 @@ import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
 import Error from "./components/Error";
 
+// States
+import AuthState from "./context/authstate";
+
 // import "./server"; // Mock server
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
+      <AuthState>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
 
-          <Route element={<AuthRequired />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/analytics/:id" element={<AnalyticsDetails />} />
+            <Route element={<AuthRequired />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/analytics/:id" element={<AnalyticsDetails />} />
+            </Route>
+
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
           </Route>
-
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </AuthState>
     </BrowserRouter>
   );
 }

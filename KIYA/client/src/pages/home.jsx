@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../context/authcontext";
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = React.useState(false); // Will change the state to true when the user logs in through redux
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <div>
@@ -14,7 +15,7 @@ export default function Home() {
         facere, iure dicta.
       </p>
 
-      {loggedIn ? (
+      {isAuthenticated ? (
         <Link to="/dashboard">Dashboard</Link>
       ) : (
         <>

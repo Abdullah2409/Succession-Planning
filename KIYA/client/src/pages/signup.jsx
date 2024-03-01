@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   faCheck,
@@ -6,6 +6,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AuthContext from "../context/authcontext";
 
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@devsinc\.io$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -13,6 +14,8 @@ const BACKEND_URL = "http://localhost:8000"; // This is temp for development
 const REGISTER_URL = BACKEND_URL + "/users";
 
 export default function Signup() {
+  const { setIsAuthenticated } = useContext(AuthContext);
+
   const userRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
@@ -85,9 +88,6 @@ export default function Signup() {
       }
 
       if (response?.status == 201) {
-        alert("User created successfully"); // This is temp for testing
-
-        //clear state and controlled inputs
         setUsername("");
         setEmail("");
         setPassword("");
@@ -95,6 +95,7 @@ export default function Signup() {
         setRole("");
         setProfilePicture("");
 
+        setIsAuthenticated(true);
         navigate("/");
       } else {
         throw new Error("Registration Failed");

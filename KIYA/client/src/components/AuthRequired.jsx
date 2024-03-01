@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
+import AuthContext from "../context/authcontext";
 
 export default function AuthRequired() {
-  const loggedIn = false;
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <>
-      {loggedIn ? (
+      {isAuthenticated ? (
         <>
           <Navbar />
           <Outlet />
