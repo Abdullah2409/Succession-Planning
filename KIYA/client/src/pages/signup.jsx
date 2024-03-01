@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   faCheck,
   faTimes,
@@ -12,21 +12,22 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const BACKEND_URL = "http://localhost:8000"; // This is temp for development
 const REGISTER_URL = BACKEND_URL + "/users";
 
-export default function Signup({ onSignUp }) {
+export default function Signup() {
   const userRef = useRef();
   const errRef = useRef();
+  const navigate = useNavigate();
 
-  const [username, setUsername] = useState("Maryam");
+  const [username, setUsername] = useState("");
 
-  const [email, setEmail] = useState("maryam@devsinc.io");
+  const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
-  const [password, setPassword] = useState("Maryam123!");
+  const [password, setPassword] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
-  const [matchPwd, setMatchPwd] = useState("Maryam123!");
+  const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
@@ -85,6 +86,7 @@ export default function Signup({ onSignUp }) {
 
       if (response?.status == 201) {
         alert("User created successfully"); // This is temp for testing
+
         //clear state and controlled inputs
         setUsername("");
         setEmail("");
@@ -93,9 +95,7 @@ export default function Signup({ onSignUp }) {
         setRole("");
         setProfilePicture("");
 
-        onSignUp(); // changes state on home page
-        // <Navigate to="/" /> // Navigate user to home page: currently getting error, will fix later
-        return;
+        navigate("/");
       } else {
         throw new Error("Registration Failed");
       }
