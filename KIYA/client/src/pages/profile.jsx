@@ -1,42 +1,49 @@
 import React, { useContext, useState, useRef } from "react";
 import AuthContext from "../context/authcontext";
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development
+const BACKEND_URL = "http://localhost:8000"; // This is temp for development (Backend URL)
+// Importing React, useContext, useState, useRef and AuthContext
 
+// Defining the profile component
 export default function Profile() {
   const imageInputRef = useRef(null);
-  const { user, setUser } = useContext(AuthContext);
-  const [name, setName] = useState(user?.name || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [address, setAddress] = useState(user?.address || "");
-  const [phonenumber, setPhonenumber] = useState(user?.phonenumber || "");
-  const [city, setCity] = useState(user?.city || "");
-  const [country, setCountry] = useState(user?.country || "");
+  const { user, setUser } = useContext(AuthContext); // Accessing user data from AuthContext
+  const [name, setName] = useState(user?.name || ""); // State for user's name
+  const [email, setEmail] = useState(user?.email || ""); // State for user's email
+  const [address, setAddress] = useState(user?.address || ""); // State for user's address
+  const [phonenumber, setPhonenumber] = useState(user?.phonenumber || ""); // State for user's phone number
+  const [city, setCity] = useState(user?.city || ""); // State for user's city
+  const [country, setCountry] = useState(user?.country || ""); // State for user's country
   const [profilepicture, setProfilePicture] = useState(
     user?.profilepicture || ""
-  );
-  const [skills, setSkills] = useState(user?.skills || []);
+  ); // State for user's profile picture
+  const [skills, setSkills] = useState(user?.skills || []); // State for user's skills (can be multiple, hence list)
 
+  // Function for uploading the profile picture
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+    const file = event.target.files[0]; //Getting the uploaded image
+    const reader = new FileReader(); //Object for reading the file
     reader.onload = (event) => {
       const binaryData = event.target.result;
       setProfilePicture(binaryData);
-    };
+    }; // Callback function for when the file has been read
     reader.readAsDataURL(file);
-  };
+  }; // Reading the file
+  // Button to input click to call function for picture upload
   const handleButtonClick = () => {
     imageInputRef.current.click();
   };
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // URL for updating user profile
     const UPDATE_PROFILE_URL =
       BACKEND_URL + `/${(user?.role).toLowerCase()}s/${user?.id}`;
-    const requestOptions = {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    // Fetch request
+      const requestOptions = {
+      method: "PATCH",  // For updating data
+      headers: { "Content-Type": "application/json" },  // Setting content type headers to JSON file format
+      body: JSON.stringify({  // Converting user data to JSON string
         ...user,
         name,
         address,
@@ -47,31 +54,34 @@ export default function Profile() {
         skills,
       }),
     };
-
+    
+    // Using try except for error handling
     try {
-      const response = await fetch(UPDATE_PROFILE_URL, requestOptions);
-      const data = await response.json();
+      const response = await fetch(UPDATE_PROFILE_URL, requestOptions); // Sending fetch request to update user profile
+      const data = await response.json(); // Parsing the JSON type data
 
+      // If response is not Okay, throw error
       if (!response.ok) {
         throw new Error(data?.message || "No Server Response");
       }
 
+      //Update user context data with the new user data
       setUser((prevData) => ({ ...prevData, ...data }));
       setName("");
       setAddress("");
       setPhonenumber("");
       setCity("");
       setCountry("");
-    } catch (error) {
+    } catch (error) { // If error found then this called, telling that error occurred
       console.error("Error updating profile:", error);
     }
   };
 
   return (
-    <section>
+    <section> 
       <h1>Edit Profile</h1>
-      <div>
-        {profilepicture && (
+      <div> {/* Div for profile display */}
+        {profilepicture && (  // Checking if profile picture is available
           <div>
             <img
               //   src={URL.createObjectURL(profilepicture)}
@@ -148,7 +158,8 @@ export default function Profile() {
         />
         <button type="submit">Update</button>
       </form>
-
+      
+      {/* Displaying the skills form if user is an employee */}
       {user?.role === "Employee" && (
         <>
           <div>
