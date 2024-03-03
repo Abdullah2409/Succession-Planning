@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const employerSchema = mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
   employerid: {
     type: String,
     required: true,
@@ -26,14 +21,31 @@ const employerSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  profilePicture: {
-    type: String,
-    default: "",
+  profilepicture: {
+    type: Object,
+    default: {},
   },
   datestarted: {
     type: Date,
     default: Date.now,
   },
+  phonenumber: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
 });
 
 const Employer = mongoose.model("Employer", employerSchema);
+export default Employer;
