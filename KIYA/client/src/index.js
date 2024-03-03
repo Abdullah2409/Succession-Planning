@@ -13,11 +13,13 @@ import EmployeeSuccession from "./pages/employee_succession";
 import EmployeeFeeback from "./pages/employee_feedback";
 import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
+import Profile from "./pages/profile";
 import Error from "./components/Error";
 
 // States
 import AuthState from "./context/authstate";
 
+// import "./index.css";
 // import "./server"; // Mock server
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/analytics/:id" element={<AnalyticsDetails />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
 
             <Route path="/signin" element={<SignIn />} />

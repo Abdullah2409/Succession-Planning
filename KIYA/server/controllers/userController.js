@@ -1,5 +1,45 @@
 import User from "../models/User.js";
+import Employee from "../models/Employee.js";
+import Employer from "../models/Employer.js";
 import bcrypt from "bcrypt";
+
+// @desc Sign in
+// @route GET /users/signin
+// @access Private
+export const signin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (!existingUser)
+      return res
+        .status(404)
+        .json({ message: "User doesn't exist. Please create an acount." });
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Invalid credentials" });
+
+    const data =
+      existingUser.role.toLowerCase() == "employee"
+        ? await Employee.findOne({ employeeid: existingUser.id })
+        : await Employer.findOne({ employerid: existingUser.id });
+    if (!data) {
+      return res
+        .status(401)
+        .json({ message: "User information does not exist in database." });
+    }
+
+    res.status(200).json({ userData: existingUser, roleSpecificData: data });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, please try again." });
+  }
+};
 
 // @desc Get all users
 // @route GET /users
@@ -21,16 +61,29 @@ export const getUsers = async (req, res) => {
 // @route POST /users
 // @access Private
 export const createUser = async (req, res) => {
-  const { username, email, password, role, profilePicture } = req.body;
+  const { name, email, password, role, profilePicture } = req.body;
+  const userid = email.split("@")[0];
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email is already registered" });
+      return res.status(400).json({ message: "Email is already registered." });
+    }
+
+    // Check if user exists in employee or employer database
+    const data =
+      role.toLowerCase() == "employee"
+        ? await Employee.findOne({ employeeid: userid })
+        : await Employer.findOne({ employerid: userid });
+    if (!data) {
+      return res
+        .status(401)
+        .json({ message: "User information does not exist in database." });
     }
 
     const newUser = new User({
-      username,
+      id: userid,
+      name,
       email,
       password: await bcrypt.hash(password, 10),
       role,
@@ -38,7 +91,7 @@ export const createUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json(newUser);
+    res.status(201).json({ userData: newUser, roleSpecificData: data });
   } catch (error) {
     res
       .status(500)
@@ -49,73 +102,11 @@ export const createUser = async (req, res) => {
 };
 
 // @desc Update a user
-// @route PATCH /users
+// @route PATCH /users/:id
 // @access Private
 export const updateUser = async (req, res) => {};
 
 // @desc Delete a user
-// @route DELETE /users
+// @route DELETE /users/:id
 // @access Private
 export const deleteUser = async (req, res) => {};
-/* export const signin = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const existingUser = await User.findOne({ email });
-    if (!existingUser)
-      return res.status(404).json({ message: "User doesn't exist" });
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-    if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Invalid credentials" });
-    res.status(200).json({ result: existingUser });
-  } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
-  }
-};
-
-export const signup = async (req, res) => {
-  const { username, email, password, role, profilePicture } = req.body;
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const result = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-      role,
-      profilePicture,
-    });
-    res.status(201).json({ result });
-  } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
-  }
-};
-
-export const updateUser = async (req, res) => {
-    const { id } = req.params;
-    const { username, email, password, role, profilePicture } = req.body;
-    if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(404).send(`No user with id: ${id}`);
-    const updatedUser = { username, email, password, role, profilePicture, _id: id };
-    await User.findByIdAndUpdate(id, updatedUser, { new: true });
-    res.json(updatedUser);
-    } catch (error) {
-    console.log(error);
-    }
-};
-
-export const deleteUser = async (req, res) => {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(404).send(`No user with id: ${id}`);
-    await User.findByIdAndRemove(id);
-    res.json({ message: "User deleted successfully." });
-    } catch (error) {
-    console.log(error);
-    }
-};
- */

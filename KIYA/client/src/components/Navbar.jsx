@@ -11,7 +11,7 @@ export default function Navbar() {
       <Link to="/skill_search">Skill Search</Link>
       <Link to="/settings">Settings</Link>
       <Link to="/help">Help</Link>
-      <Link to="/profile">Name</Link>
+      <Link to="/profile">Profile</Link>
     </nav>
   );
 }
