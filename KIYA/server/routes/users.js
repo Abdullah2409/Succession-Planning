@@ -1,5 +1,4 @@
 import express from "express";
-// Importing express module
 
 import {
   getUsers,
