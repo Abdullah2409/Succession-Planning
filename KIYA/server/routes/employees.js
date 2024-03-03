@@ -1,5 +1,4 @@
 import express from "express";
-// Importing the Express module
 
 import {
   getEmployees,
@@ -9,9 +8,7 @@ import {
   getDepartmentEmployees,
   getEmployee,
 } from "../controllers/employeeController.js";
-// Importing the controller functions
 
-// Creating a router instance
 const router = express.Router();
 
 // GET request for employees

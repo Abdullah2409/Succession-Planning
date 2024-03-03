@@ -17,7 +17,7 @@ import SkillSearch from "./pages/skill_search";
 import Profile from "./pages/profile";
 import Error from "./components/Error";
 
-// States
+// Context States
 import AuthState from "./context/authstate";
 
 // import "./index.css";

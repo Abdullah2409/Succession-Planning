@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/authcontext";
 
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development
+const BACKEND_URL = "http://localhost:8000"; // This is temp for development, will be changed to production URL
 const REGISTER_URL = BACKEND_URL + "/users/signin";
 
 export default function Signin() {
@@ -12,8 +12,8 @@ export default function Signin() {
   const errRef = useRef();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("25100226@devsinc.io");
-  const [password, setPassword] = useState("Adil123!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [errMsg, setErrMsg] = useState("");
 
@@ -52,6 +52,7 @@ export default function Signin() {
 
   return (
     <section>
+      {/* This error tag will be displayed if something goes wrong while the user is signing in */}
       <p
         ref={errRef}
         className={errMsg ? "errmsg" : "offscreen"} // write css to show/hide this
@@ -61,7 +62,7 @@ export default function Signin() {
       </p>
 
       <h1>Sign In</h1>
-      <p>Welcome back! Please signin to your acount.</p>
+      <p>Welcome back! Please signin to your account.</p>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email Address:</label>

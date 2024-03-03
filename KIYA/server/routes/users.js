@@ -8,9 +8,7 @@ import {
   deleteUser,
   signin,
 } from "../controllers/userController.js";
-// Importing controller functions
 
-// Creating router instance
 const router = express.Router();
 
 // For getting a user

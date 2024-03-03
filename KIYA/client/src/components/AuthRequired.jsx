@@ -2,20 +2,22 @@ import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import AuthContext from "../context/authcontext";
-// importing React, useContext, Navigate, Outlet, Navbar and Authcontext component
 
+/* This component is used to check if the user is authenticated or not. If the user is authenticated, 
+it will render the Navbar and the child components. If the user is not authenticated, 
+it will redirect the user to the signin page. 
+*/
 export default function AuthRequired() {
-  const { isAuthenticated } = useContext(AuthContext); // Using the useContext hook to access authentication state from the AuthContext
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <>
-      {isAuthenticated ? ( // Checking to see if user is authenticated, if they are, then render the Navbar component and the outlet component routes
+      {isAuthenticated ? (
         <>
           <Navbar />
           <Outlet />
         </>
       ) : (
-        // if not authenticated, then redirect to sign in page.
         <Navigate to="/signin" />
       )}
     </>

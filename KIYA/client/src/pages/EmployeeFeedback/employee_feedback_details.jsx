@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development
+const BACKEND_URL = "http://localhost:8000"; // This is temporary for development. Will be replaced with production URL
 
+/* This is the followup component to the employee feedback. 
+Here an employer will leave their feedback for the selected employee 
+*/
 export default function EmployeeFeedbackDetails() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -13,8 +16,6 @@ export default function EmployeeFeedbackDetails() {
 
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState("");
-
-  console.log(rating);
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/employees/${id}`)

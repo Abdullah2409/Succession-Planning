@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import AuthContext from "./authcontext";
-// Improting React, useState (hook) and AuthContext component.
 
+/* This component is used to provide the state and context to the child components. 
+It is used to manage the state of the user authentication and user information that is currectly logged in.
+*/
 export default function AuthState(props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null); // Defining state for user information
+  const [user, setUser] = useState(null);
 
   return (
-    <AuthContext.Provider // For providing values to child components
+    <AuthContext.Provider
       value={{
         isAuthenticated,
         setIsAuthenticated,
@@ -15,7 +17,7 @@ export default function AuthState(props) {
         setUser,
       }}
     >
-      {props.children} {/* Render child components */}
+      {props.children}
     </AuthContext.Provider>
   );
 }

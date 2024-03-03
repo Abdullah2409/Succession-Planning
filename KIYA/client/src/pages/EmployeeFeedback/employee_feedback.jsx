@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/authcontext";
 import { Link } from "react-router-dom";
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development
+const BACKEND_URL = "http://localhost:8000"; // This is temporray and only used for development. It will be replaced with the production URL.
 
+/* This component is used to display the employees in the same department as the logged in employer. 
+It also provides the functionality to search for an employee by their employee 
+ID and give feedback. 
+*/
 export default function EmployeeFeedback() {
   const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch employees in the same department
+  // This api call is used to get the employees in the same department as the logged in employer.
   useEffect(() => {
     fetch(`${BACKEND_URL}/employees/department/${user?.department}`)
       .then((res) => res.json())
@@ -19,6 +23,7 @@ export default function EmployeeFeedback() {
       });
   }, []);
 
+  // This function is used to filter the employees based on the search query.
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
@@ -27,7 +32,6 @@ export default function EmployeeFeedback() {
     );
     setFilteredEmployees(filtered);
   };
-  
 
   const employeeElements = filteredEmployees.map((employee, index) => {
     return (

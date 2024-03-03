@@ -8,44 +8,39 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthContext from "../context/authcontext";
 
-// For email and password validation
+// Regular expressions for email and password validation
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@devsinc\.io$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-// Backend URL and registeration endpoint
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development
+const BACKEND_URL = "http://localhost:8000"; // This is temp for development, will be replaced with production URL.
 const REGISTER_URL = BACKEND_URL + "/users";
 
-// Defining component for signup
 export default function Signup() {
-  // Accessing authentication using Authcontext
+  const navigate = useNavigate();
   const { setIsAuthenticated, setUser } = useContext(AuthContext);
 
-  // Making DOM elements
   const userRef = useRef();
   const errRef = useRef();
-  const navigate = useNavigate();
 
-  // State variables for user input fields and validation
-  const [name, setUsername] = useState("Adil");
+  const [name, setUsername] = useState("");
 
-  const [email, setEmail] = useState("adil@devsinc.io");
+  const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
-  const [password, setPassword] = useState("Adil123!");
+  const [password, setPassword] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
-  const [matchPwd, setMatchPwd] = useState("Adil123!");
+  const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
-  const [role, setRole] = useState("Employee");
+  const [role, setRole] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
-  const [errMsg, setErrMsg] = useState(""); // For displaying error message
+  const [errMsg, setErrMsg] = useState("");
 
-  // Effect for focusing on the name input field when mounted
+  // Effect for focusing on the name input field when mounted for the first time.
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -69,9 +64,8 @@ export default function Signup() {
   // For form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if button enabled with JS hack
 
-    // Validation of email and password, if invalid gives error
+    // if button enabled with JS hack, we can prevent form submission by validating the email and password
     const v1 = EMAIL_REGEX.test(email);
     const v2 = PWD_REGEX.test(password);
     if (!v1 || !v2) {
@@ -79,7 +73,6 @@ export default function Signup() {
       return;
     }
 
-    // Prepare request options for sending user data to the server by making a POST request and converting to JSON format
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -87,16 +80,13 @@ export default function Signup() {
     };
 
     try {
-      // Sending the Post request
       const response = await fetch(REGISTER_URL, requestOptions);
       const data = await response.json();
 
-      // If no reply, then throw error
       if (!response.ok) {
         throw new Error(data?.message || "No Server Response");
       }
 
-      // Clearing the input fields and redirecting the user to the homepage
       setUsername("");
       setEmail("");
       setPassword("");
@@ -107,16 +97,13 @@ export default function Signup() {
       setUser({ ...data.userData, ...data.roleSpecificData });
       navigate("/");
     } catch (error) {
-      // If any error then an error message will be displayed
       setErrMsg(error.message);
       errRef.current.focus();
     }
   };
 
-  // Rendering the sign up form
   return (
     <section>
-      {/* For displaying error message if any */}
       <p
         ref={errRef}
         className={errMsg ? "errmsg" : "offscreen"} // write css to show/hide this
@@ -125,7 +112,6 @@ export default function Signup() {
         {errMsg}
       </p>
 
-      {/* Sign up form */}
       <h1>Sign Up</h1>
       <p>Welcome! Please signup to make an acount.</p>
 
@@ -136,13 +122,12 @@ export default function Signup() {
           id="name"
           ref={userRef}
           autoComplete="off"
-          onChange={(e) => setUsername(e.target.value)} // Updating the state if input changed
+          onChange={(e) => setUsername(e.target.value)}
           value={name}
           required
           aria-describedby="uidnote"
         />
 
-        {/* Email validation icons */}
         <label htmlFor="email">
           Email Address:
           <FontAwesomeIcon
@@ -173,7 +158,6 @@ export default function Signup() {
           Must be a valid email address ending in @devsinc.io
         </p>
 
-        {/* Password input field with validation check */}
         <label htmlFor="password">
           Password:
           <FontAwesomeIcon
@@ -188,7 +172,7 @@ export default function Signup() {
         <input
           type="password"
           id="password"
-          onChange={(e) => setPassword(e.target.value)} // Update state if input field changed
+          onChange={(e) => setPassword(e.target.value)}
           value={password}
           required
           aria-invalid={validPwd ? "false" : "true"}
@@ -196,13 +180,11 @@ export default function Signup() {
           onFocus={() => setPwdFocus(true)}
           onBlur={() => setPwdFocus(false)}
         />
-        {/* Password validation */}
         <p
           id="pwdnote"
           className={pwdFocus && !validPwd ? "instructions" : "offscreen"} // write css to show/hide this
         >
           <FontAwesomeIcon icon={faInfoCircle} />
-          {/* Password required length and requirements for strong password */}
           8 to 24 characters.
           <br />
           Must include uppercase and lowercase letters, a number and a special
@@ -216,7 +198,6 @@ export default function Signup() {
           <span aria-label="percent">%</span>
         </p>
 
-        {/* Confirm password label and validation icons */}
         <label htmlFor="confirm_pwd">
           Confirm Password:
           <FontAwesomeIcon
@@ -229,7 +210,6 @@ export default function Signup() {
           />
         </label>
 
-        {/* Input field for confirming password */}
         <input
           type="password"
           id="confirm_pwd"
@@ -247,10 +227,8 @@ export default function Signup() {
         >
           <FontAwesomeIcon icon={faInfoCircle} />
           Must match the first password input field.{" "}
-          {/* Instruction for confirming password field */}
         </p>
 
-        {/* Role selection (Employer/Employee) */}
         <label htmlFor="role">Role:</label>
         <select
           id="role"
@@ -263,7 +241,6 @@ export default function Signup() {
           <option value="Employee">Employee</option>
         </select>
 
-        {/* Profile picture input field */}
         <label htmlFor="profilePicture">Profile Picture:</label>
         <input
           type="text"
@@ -272,7 +249,6 @@ export default function Signup() {
           value={profilePicture}
         />
 
-        {/* Sign up button */}
         <button
           disabled={!validEmail || !validPwd || !validMatch ? true : false}
         >
@@ -280,7 +256,6 @@ export default function Signup() {
         </button>
       </form>
 
-      {/* Link to sign-in page if already signed up */}
       <p>
         Already registered?
         <br />
