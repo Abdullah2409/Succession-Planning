@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/users.js";
 import employeeRoutes from "./routes/employees.js";
 import employerRoutes from "./routes/employers.js";
+import feedbackRoutes from "./routes/feedback.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors(corsOptions)); // gives access to allowed orgins only
 app.use("/users", userRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/employers", employerRoutes);
+app.use("/feedback", feedbackRoutes);
 
 // Connect to MongoDB and start the server
 dotenv.config();

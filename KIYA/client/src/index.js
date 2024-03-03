@@ -10,7 +10,8 @@ import Dashboard from "./pages/dashboard";
 import Analytics from "./pages/Analytics/analytics";
 import AnalyticsDetails from "./pages/Analytics/analytics_details";
 import EmployeeSuccession from "./pages/employee_succession";
-import EmployeeFeeback from "./pages/employee_feedback";
+import EmployeeFeeback from "./pages/EmployeeFeedback/employee_feedback";
+import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_details";
 import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
 import Profile from "./pages/profile";
@@ -34,6 +35,11 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/analytics/:id" element={<AnalyticsDetails />} />
+              <Route path="/employee-feedback" element={<EmployeeFeeback />} />
+              <Route
+                path="/employee-feedback/:id"
+                element={<EmployeeFeebackDetails />}
+              />
               <Route path="/profile" element={<Profile />} />
             </Route>
 

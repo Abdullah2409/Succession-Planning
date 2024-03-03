@@ -104,7 +104,7 @@ export const getEmployee = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const employee = await Employee.findById(id);
+    const employee = await Employee.findOne({ employeeid: id });
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
@@ -115,5 +115,26 @@ export const getEmployee = async (req, res) => {
       .status(500)
       .json({ message: "Failed to fetch employee", error: error.message });
     console.error("Error fetching employee:", error);
+  }
+};
+
+// @desc Get employees by department
+// @route GET /employees/department/:department
+// @access Private
+export const getDepartmentEmployees = async (req, res) => {
+  const { department } = req.params;
+
+  try {
+    const employees = await Employee.find({ department });
+    if (!employees) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    res.status(200).json(employees);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch employees", error: error.message });
+    console.error("Error fetching employees:", error);
   }
 };
