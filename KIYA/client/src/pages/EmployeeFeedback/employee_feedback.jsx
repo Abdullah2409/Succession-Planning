@@ -6,15 +6,30 @@ const BACKEND_URL = "http://localhost:8000"; // This is temp for development
 export default function EmployeeFeedback() {
   const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch employees in the same department
   useEffect(() => {
     fetch(`${BACKEND_URL}/employees/department/${user?.department}`)
       .then((res) => res.json())
-      .then((data) => setEmployees(data));
+      .then((data) => {
+        setEmployees(data);
+        setFilteredEmployees(data);
+      });
   }, []);
 
-  const employeeElements = employees.map((employee, index) => {
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    const filtered = employees.filter((employee) =>
+      employee.employeeID.toString().includes(query)
+    );
+    setFilteredEmployees(filtered);
+  };
+  
+
+  const employeeElements = filteredEmployees.map((employee, index) => {
     return (
       <div key={index}>
         <img
@@ -42,6 +57,12 @@ export default function EmployeeFeedback() {
   return (
     <>
       <h1>Employee Feedback</h1>
+      <input
+        type="text"
+        placeholder="Search by Employee ID"
+        value={searchQuery}
+        onChange={handleSearch}
+      />
       {employees ? employeeElements : <div>Loading...</div>}
     </>
   );

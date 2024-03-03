@@ -85,11 +85,11 @@ export default function Signin() {
           aria-describedby="pwdnote"
         />
 
-        <button>Sign Up</button>
+        <button>Sign In</button>
       </form>
 
       <p>
-        No acount? Click here to
+        No account? Click here to
         <span className="line">
           <Link to="/signup">Sign Up</Link>
         </span>
