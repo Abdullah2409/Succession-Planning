@@ -10,10 +10,11 @@ import Dashboard from "./pages/dashboard";
 import Analytics from "./pages/Analytics/analytics";
 import AnalyticsDetails from "./pages/Analytics/analytics_details";
 import EmployeeSuccession from "./pages/employee_succession";
-import EmployeeFeeback from "./pages/employee_feedback";
+import EmployeeFeedback from "./pages/employee_feedback";
 import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
 import Error from "./components/Error";
+
 
 // States
 import AuthState from "./context/authstate";
@@ -36,6 +37,8 @@ function App() {
 
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/employee_feedback" element={<EmployeeFeedback />} />
+            <Route path="/employee_succession" element={<EmployeeSuccession />} />
           </Route>
         </Routes>
       </AuthState>
@@ -43,4 +46,6 @@ function App() {
   );
 }
 
+// ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
