@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const employeeSchema = mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
   employeeid: {
     type: String,
     required: true,
@@ -32,9 +27,9 @@ const employeeSchema = mongoose.Schema({
   skills: {
     type: [String],
   },
-  profilePicture: {
-    type: String,
-    default: "",
+  profilepicture: {
+    type: Object,
+    default: {},
   },
   datestarted: {
     type: Date,
@@ -47,6 +42,23 @@ const employeeSchema = mongoose.Schema({
     type: Boolean, // Employer can deactivate employee
     default: true,
   },
+  phonenumber: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
 });
 
 const Employee = mongoose.model("Employee", employeeSchema);
+export default Employee;

@@ -14,27 +14,27 @@ const BACKEND_URL = "http://localhost:8000"; // This is temp for development
 const REGISTER_URL = BACKEND_URL + "/users";
 
 export default function Signup() {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setUser } = useContext(AuthContext);
 
   const userRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
+  const [name, setUsername] = useState("Adil");
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("adil@devsinc.io");
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("Adil123!");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
-  const [matchPwd, setMatchPwd] = useState("");
+  const [matchPwd, setMatchPwd] = useState("Adil123!");
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("Employee");
   const [profilePicture, setProfilePicture] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
@@ -57,7 +57,6 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // if button enabled with JS hack
     const v1 = EMAIL_REGEX.test(email);
     const v2 = PWD_REGEX.test(password);
@@ -66,48 +65,31 @@ export default function Signup() {
       return;
     }
 
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password, role }),
+    };
+
     try {
-      const response = await fetch(REGISTER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-          role,
-          profilePicture,
-        }),
-      });
+      const response = await fetch(REGISTER_URL, requestOptions);
+      const data = await response.json();
 
-      if (response?.status == 400) {
-        setErrMsg("Email is already registered");
-        errRef.current.focus();
-        return;
+      if (!response.ok) {
+        throw new Error(data?.message || "No Server Response");
       }
 
-      if (response?.status == 201) {
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setMatchPwd("");
-        setRole("");
-        setProfilePicture("");
-
-        setIsAuthenticated(true);
-        navigate("/");
-      } else {
-        throw new Error("Registration Failed");
-      }
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Username Taken");
-      } else {
-        setErrMsg("Registration Failed");
-      }
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setMatchPwd("");
+      setRole("");
+      setProfilePicture("");
+      setIsAuthenticated(true);
+      setUser({ ...data.userData, ...data.roleSpecificData });
+      navigate("/");
+    } catch (error) {
+      setErrMsg(error.message);
       errRef.current.focus();
     }
   };
@@ -126,14 +108,14 @@ export default function Signup() {
       <p>Welcome! Please signup to make an acount.</p>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Full Name:</label>
+        <label htmlFor="name">Full Name:</label>
         <input
           type="text"
-          id="username"
+          id="name"
           ref={userRef}
           autoComplete="off"
           onChange={(e) => setUsername(e.target.value)}
-          value={username}
+          value={name}
           required
           aria-describedby="uidnote"
         />
