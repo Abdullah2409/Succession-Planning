@@ -6,9 +6,11 @@ import Header from "./Header";
 // including the header and the main content area
 export default function Layout() {
   return (
-    <>
+    <div className="overflow-x-hidden">
       <Header />
-      <Outlet />
-    </>
+      <div className="px-md md:px-sd font-roboto">
+        <Outlet />
+      </div>
+    </div>
   );
 }

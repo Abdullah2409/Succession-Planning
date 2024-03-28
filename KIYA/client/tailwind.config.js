@@ -13,8 +13,15 @@ module.exports = {
       secondary: "#F4978F",
     },
     fontFamily: {
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
+      roboto: ["Roboto", "sans-serif"],
+      alerta: ["Alerta", "sans-serif"],
+    },
+    padding: {
+      sm: "8px",
+      md: "16px",
+      lg: "24px",
+      xl: "48px",
+      sd: "46px", // used for side padding of every page
     },
     extend: {},
   },

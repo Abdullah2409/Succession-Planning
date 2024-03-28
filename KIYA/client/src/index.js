@@ -20,7 +20,7 @@ import Error from "./components/Error";
 // Context States
 import AuthState from "./context/authstate";
 
-// import "./index.css";
+import "./index.css";
 // import "./server"; // Mock server
 
 function App() {
