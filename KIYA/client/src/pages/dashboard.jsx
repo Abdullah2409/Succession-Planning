@@ -1,16 +1,19 @@
 import React from "react";
-import Sidebar from "../components/Sidebar"; 
+import Navbar from "../components/Navbar";
+// Importing the react library
+
+// Defining the Dashboard component
+// export default function Dashboard() {
+//   return <div>Dashboard</div>;
+// }
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen flex m-0 p-0 bg-gray-100">
-      <Sidebar />
+    <div className="m-0 p-0 bg-gray-100">
+      {/* <Navbar /> */}
       <div className="flex-grow p-5">
         <header className="flex justify-between items-center py-4 px-6 bg-white shadow">
           <h1 className="text-2xl font-semibold text-gray-700">Employer Dashboard</h1>
-          <div className="contact-info">
-            Contact us at <a href="mailto:example@email.com" className="text-blue-500 underline">example@email.com</a>
-          </div>
         </header>
         <main className="mt-4">
           <div className="flex flex-wrap lg:flex-nowrap justify-between">
