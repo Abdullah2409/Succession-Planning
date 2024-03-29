@@ -241,13 +241,22 @@ export default function Signup() {
           <option value="Employee">Employee</option>
         </select>
 
-        <label htmlFor="profilePicture">Profile Picture:</label>
+        {/* <label htmlFor="profilePicture">Profile Picture:</label>
         <input
           type="text"
           id="profilePicture"
           onChange={(e) => setProfilePicture(e.target.value)}
           value={profilePicture}
+        /> */}
+        <label htmlFor="profilePicture">Profile Picture:</label>
+        <input
+          type="file" // change this to 'file'
+          id="profilePicture"
+          accept="image/png, image/jpeg" // specify the file types to accept
+          onChange={(e) => setProfilePicture(e.target.files[0])} // update to handle file input
+          // Removed the value attribute since file inputs do not support the value attribute in React
         />
+
 
         <button
           disabled={!validEmail || !validPwd || !validMatch ? true : false}

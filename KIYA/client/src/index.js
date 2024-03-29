@@ -9,7 +9,8 @@ import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
 import Analytics from "./pages/Analytics/analytics";
 import AnalyticsDetails from "./pages/Analytics/analytics_details";
-import EmployeeSuccession from "./pages/employee_succession";
+import EmployeeSuccession from "./pages/EmployeeSuccession/employee_succession";
+import EmployeeSuccessionDetails from "./pages/EmployeeSuccession/employee-succession-details"
 import EmployeeFeeback from "./pages/EmployeeFeedback/employee_feedback";
 import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_details";
 import Settings from "./pages/settings";
@@ -36,6 +37,8 @@ function App() {
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/analytics/:id" element={<AnalyticsDetails />} />
               <Route path="/employee-feedback" element={<EmployeeFeeback />} />
+              <Route path="/employee-succession" element={<EmployeeSuccession />} />
+              <Route path="/employee-succession-details" element={<EmployeeSuccessionDetails />} />
               <Route
                 path="/employee-feedback/:id"
                 element={<EmployeeFeebackDetails />}
