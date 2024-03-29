@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // Importing the react library
 
 // Defining the Dashboard component
@@ -18,7 +19,10 @@ const ProfileCard = () => {
         <div style={{ textAlign: 'center', color: 'grey' }}>ROLE: EMPLOYER</div>
       </div>
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <Link>
         <button style={{ padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#00f', color: '#fff' }}>VIEW MORE</button>
+        </Link>
+        
       </div>
     </div>
   );
