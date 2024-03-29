@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const employeeSchema = mongoose.Schema({
   employeeid: {
-    type: String,
+    type: Number,
     required: true,
   },
   name: {
@@ -35,6 +35,10 @@ const employeeSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  dateupdated: {
+    type: Date,
+    default: Date.now,
+  },
   dateseparated: {
     type: Date,
   },
@@ -57,6 +61,14 @@ const employeeSchema = mongoose.Schema({
   address: {
     type: String,
     required: true,
+  },
+  linesOfCode: {
+    type: Number,
+    default: 0,
+  },
+  trainingPrograms: {
+    type: Number,
+    default: 0,
   },
 });
 

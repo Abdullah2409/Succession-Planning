@@ -1,4 +1,5 @@
 import Employer from "../models/Employer.js";
+import User from "../models/User.js";
 
 // @desc Get all employers
 // @route GET /employers
@@ -19,20 +20,34 @@ export const getEmployers = async (req, res) => {
 // @route POST /employers
 // @access Private
 export const createEmployer = async (req, res) => {
-  const { name, email, phone, picture, salary, position } = req.body;
+  const employerData = req.body;
+  if (!employerData) {
+    return res.status(400).json({ message: "No employer data" });
+  }
+  if (!employerData.employerid) {
+    return res.status(400).json({ message: "Employer ID is required" });
+  }
+
   try {
-    const existingEmployee = await Employer.findOne({ email });
+    employerData.employerid = parseInt(employerData.employerid, 10);
+    const existingEmployee = await Employer.findOne({
+      employerid: employerData.employerid,
+    });
     if (existingEmployee) {
       return res.status(400).json({ message: "Email is already registered" });
     }
 
-    const newEmployee = await Employee.create({
-      name,
-      email,
-      phone,
-      picture,
-      salary,
-      position,
+    const newEmployee = await Employer.create({
+      employerid: employerData.employerid || null,
+      name: employerData.name || "",
+      address: employerData.address || "",
+      department: employerData.department || "",
+      designation: employerData.designation || "",
+      profilepicture: employerData.profilepicture || {},
+      datestarted: employerData.datestarted || Date.now(),
+      phonenumber: employerData.phonenumber || "",
+      city: employerData.city || "",
+      country: employerData.country || "",
     });
     res.status(201).json(newEmployee);
   } catch (error) {
@@ -47,10 +62,11 @@ export const createEmployer = async (req, res) => {
 // @route PATCH /employers/:id
 // @access Private
 export const updateEmployer = async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
   const { name, address, phonenumber, city, country, profilepicture } =
     req.body;
   try {
+    id = parseInt(id, 10);
     const employer = await Employer.findOne({ employerid: id });
     if (!employer) {
       return res.status(404).json({ message: "Employer not found" });
@@ -62,8 +78,15 @@ export const updateEmployer = async (req, res) => {
     employer.city = city || employer.city;
     employer.country = country || employer.country;
     employer.profilepicture = profilepicture || employer.profilepicture;
-
     await employer.save();
+
+    const user = await User.findOne({
+      id: employer.employerid,
+      role: "Employer",
+    });
+    user.name = name || user.name;
+    await user.save();
+
     res.status(200).json(employer);
   } catch (error) {
     res
@@ -77,9 +100,10 @@ export const updateEmployer = async (req, res) => {
 // @route DELETE /employers/:id
 // @access Private
 export const deleteEmployer = async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
 
   try {
+    id = parseInt(id, 10);
     const employer = await Employer.findById(id);
     if (!employer) {
       return res.status(404).json({ message: "Employer not found" });
@@ -99,9 +123,10 @@ export const deleteEmployer = async (req, res) => {
 // @route GET /employers/:id
 // @access Private
 export const getEmployer = async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
 
   try {
+    id = parseInt(id, 10);
     const employer = await Employer.findById(id);
     if (!employer) {
       return res.status(404).json({ message: "Employer not found" });

@@ -23,6 +23,11 @@ module.exports = {
       xl: "48px",
       sd: "46px", // used for side padding of every page
     },
+    fontSize: {
+      // 35px headings for mobile and 40px for desktop
+      "heading-mobile": ["35px", "50px"],
+      "heading-desktop": ["40px", "60px"],
+    },
     extend: {},
   },
   plugins: [],
