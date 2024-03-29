@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/authcontext";
-import bussinessPlanSVG from "../images/Business Plan.svg";
+import Button from "../components/Button";
+import bussinessPlanSVG from "../assets/Business Plan.svg";
 
 // This is the home page of the application. It will display the information about the application and the links to the sign in and sign up pages.
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
         alt="Business Plan"
       />
       <div>
-        <h1 className="font-bold text-[35px] md:text-[40px] lg:text-[50px] mb-3">
+        <h1 className="font-bold text-heading-mobile md:text-heading-desktop lg:text-[50px] mb-3">
           Succession <br></br> Planning With KIYA
         </h1>
         <p>
@@ -24,14 +25,35 @@ export default function Home() {
           Voluptatum porro libero quibusdam reiciendis quae magnam ex tempora
           quia repudiandae facere, iure dicta.
         </p>
-        {isAuthenticated ? (
-          <Link to="/dashboard">Dashboard</Link>
-        ) : (
-          <>
-            <Link to="/signin">Sign In</Link>
-            <Link to="/signup">Sign Up</Link>
-          </>
-        )}
+
+        <div className="mt-4">
+          {isAuthenticated ? (
+            <Link to="/dashboard">
+              <Button
+                text="Go to Dashboard"
+                bg_clr="bg-primary"
+                text_clr="text-white"
+              />
+            </Link>
+          ) : (
+            <div className="flex gap-3">
+              <Link to="/signin">
+                <Button
+                  text="Sign In"
+                  bg_clr="bg-primary"
+                  text_clr="text-white"
+                />
+              </Link>
+              <Link to="/signup">
+                <Button
+                  text="Sign Up"
+                  bg_clr="bg-primary"
+                  text_clr="text-white"
+                />
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

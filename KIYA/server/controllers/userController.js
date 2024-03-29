@@ -8,7 +8,6 @@ import bcrypt from "bcrypt";
 // @access Private
 export const signin = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const existingUser = await User.findOne({ email });
 
@@ -65,7 +64,7 @@ export const getUsers = async (req, res) => {
 // @route POST /users
 // @access Private
 export const createUser = async (req, res) => {
-  const { name, email, password, role, profilePicture } = req.body;
+  const { name, email, password, role } = req.body;
   const userid = email.split("@")[0];
 
   try {
@@ -90,7 +89,6 @@ export const createUser = async (req, res) => {
       email,
       password: await bcrypt.hash(password, 10),
       role,
-      profilePicture,
     });
 
     await newUser.save();
@@ -107,7 +105,35 @@ export const createUser = async (req, res) => {
 // @desc Update a user
 // @route PATCH /users/:id
 // @access Private
-export const updateUser = async (req, res) => {};
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, password, role } = req.body;
+  role = role.toLowerCase();
+
+  try {
+    const user = await User.findOne({
+      id: id,
+      role: role.charAt(0).toUpperCase() + role.slice(1),
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.password = password || user.password;
+    user.role = role || user.role;
+
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to update user", error: error.message });
+    console.error("Error updating user:", error);
+  }
+};
 
 // @desc Delete a user
 // @route DELETE /users/:id
