@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const employerSchema = mongoose.Schema({
   employerid: {
-    type: String,
+    type: Number,
     required: true,
   },
   name: {
