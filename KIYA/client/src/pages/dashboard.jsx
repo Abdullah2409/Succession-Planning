@@ -1,5 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { Link ,useParams, useNavigate } from "react-router-dom";
+import AuthContext from "../context/authcontext";
+const BACKEND_URL = "http://localhost:8000"; // This is temporary for development. Will be replaced with production URL
 // Importing the react library
 
 // Defining the Dashboard component
@@ -9,17 +11,33 @@ import { Link } from "react-router-dom";
 
 // A simple component for the profile card
 const ProfileCard = () => {
+  const { user, setUser } = useContext(AuthContext);
+  const [name, setName] = useState(user?.name || "");
+  const [profilepicture, setProfilePicture] = useState(
+    user?.profilepicture || ""
+  );
+
   return (
+    
     <div style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '20px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-        <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#ddd' }}></div>
+        {}
+        {user.profilepicture ? (
+          <img
+            src={user.profilepicture}
+            alt="Profile"
+            style={{ width: '60px', height: '60px', borderRadius: '50%' }}
+          />
+        ) : (
+          <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#ddd' }} />
+        )}
       </div>
       <div>
-        <div style={{ textAlign: 'center', marginBottom: '10px' }}>NAME</div>
-        <div style={{ textAlign: 'center', color: 'grey' }}>ROLE: EMPLOYER</div>
+        <div style={{ textAlign: 'center', marginBottom: '10px' }}>{user.name}</div>
+        <div style={{ textAlign: 'center', color: 'grey' }}>{user.role}</div>
       </div>
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <Link>
+        <Link to="/profile">
         <button style={{ padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#00f', color: '#fff' }}>VIEW MORE</button>
         </Link>
         
