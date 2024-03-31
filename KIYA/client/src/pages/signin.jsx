@@ -56,7 +56,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex gap-5 justify-center items-center">
+    <div className="m-auto md:m-0 px-md md:px-sd flex gap-[5rem] justify-between items-center min-h-screen lg:gap-[10rem]">
       <section className="w-full max-w-lg mt-4">
         {/* This error tag will be displayed if something goes wrong while the user is signing in */}
         <p
@@ -135,7 +135,7 @@ export default function Signin() {
       <img
         src={logo}
         alt="logo"
-        className="hidden md:block w-1/2 max-w-md mx-auto mt-4"
+        className="hidden md:block w-3/4  mx-auto mt-4 lg:mt-0 max-w-[30rem]"
       />
     </div>
   );

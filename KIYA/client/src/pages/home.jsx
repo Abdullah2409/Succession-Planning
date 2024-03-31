@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/authcontext";
 import Button from "../components/Button";
@@ -9,7 +9,7 @@ export default function Home() {
   const { isAuthenticated } = useContext(AuthContext); // The auth context has the information about the user authentication. If the user is authenticated, it will have the user information.
 
   return (
-    <div className="flex flex-col items-center md:flex-row">
+    <div className="p-lg flex flex-col items-center md:flex-row">
       <img
         src={bussinessPlanSVG}
         className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl "
@@ -17,7 +17,7 @@ export default function Home() {
       />
       <div>
         <h1 className="font-bold text-heading-mobile md:text-heading-desktop lg:text-[50px] mb-3">
-          Succession <br></br> Planning With KIYA
+          Succession <br></br> Planning With KEYA
         </h1>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex
