@@ -14,7 +14,7 @@ module.exports = {
     },
     fontFamily: {
       roboto: ["Roboto", "sans-serif"],
-      alerta: ["Alerta", "sans-serif"],
+      alerta: ["Allerta", "sans-serif"],
     },
     padding: {
       sm: "8px",
@@ -22,6 +22,7 @@ module.exports = {
       lg: "24px",
       xl: "48px",
       sd: "46px", // used for side padding of every page
+      tb: "50px", // used for top and bottom padding of every page
     },
     fontSize: {
       // 35px headings for mobile and 40px for desktop

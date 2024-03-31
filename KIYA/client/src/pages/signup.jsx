@@ -117,7 +117,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex gap-5 justify-center items-center">
+    <div className="m-auto md:m-0 px-md md:px-sd flex gap-5 justify-between items-center lg:gap-[10rem]">
       <section className="w-full max-w-lg mt-4">
         <p
           ref={errRef}
@@ -363,7 +363,7 @@ export default function Signup() {
       <img
         src={logo}
         alt="logo"
-        className="hidden md:block w-1/2 max-w-md mx-auto mt-4"
+        className="hidden md:block w-1/2 max-w-md mx-auto mt-4 lg:max-w-[40rem] "
       />
     </div>
   );
