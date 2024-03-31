@@ -22,8 +22,8 @@ import { FaTachometerAlt, FaChartBar, FaRegListAlt, FaRegComments, FaWpforms, Fa
 
 export default function Navbar() {
   return (
-    <nav>
-      <div className="flex flex-col items-center">
+    <nav className="bg-primary" style={{ paddingLeft: '15px' }} >
+      <div className="flex bg-primary flex-col items-center" style={{ paddingRight: '15px' }}>
         {/* Logo or brand name */}
         <div className="text-white mb-10">
           {/* Assuming you have a logo component or simply an image */}
