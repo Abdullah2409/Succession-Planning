@@ -65,7 +65,7 @@ export const createEmployee = async (req, res) => {
 // @route PATCH /employees/:id
 // @access Private
 export const updateEmployee = async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
   const { name, address, phonenumber, city, country, profilepicture, skills } =
     req.body;
 
@@ -106,7 +106,7 @@ export const updateEmployee = async (req, res) => {
 // @route DELETE /employees/:id
 // @access Private
 export const deleteEmployee = async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
   try {
     id = parseInt(id, 10);
     const employee = await Employee.findById(id);
@@ -128,7 +128,7 @@ export const deleteEmployee = async (req, res) => {
 // @route GET /employees/:id
 // @access Private
 export const getEmployee = async (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
   try {
     id = parseInt(id, 10);
     const employee = await Employee.findOne({ employeeid: id });

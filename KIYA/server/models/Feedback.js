@@ -11,7 +11,7 @@ const feedbackSchema = mongoose.Schema({
   },
   feedback: {
     type: String,
-    required: true,
+    default: "",
   },
   rating: {
     type: Number,

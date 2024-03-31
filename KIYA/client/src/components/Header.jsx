@@ -4,7 +4,7 @@ import logo from "../assets/logo.svg";
 
 export default function Header() {
   return (
-    <header className="w-full px-md md:px-sd bg-primary flex justify-between items-center p-lg">
+    <header className="w-full px-md md:px-sd bg-primary flex justify-between items-center p-lg drop-shadow-md">
       <Link
         className="site-log font-bold text-[1.25rem] md:text-[2.5rem] font-alerta flex items-center gap-2 [text-shadow:_0_4px_4px_rgb(0_0_0_/_25%)]"
         to="/"

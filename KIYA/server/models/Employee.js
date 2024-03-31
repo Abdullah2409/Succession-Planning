@@ -11,7 +11,7 @@ const employeeSchema = mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
+    default: "",
   },
   department: {
     type: String,
@@ -23,9 +23,11 @@ const employeeSchema = mongoose.Schema({
   },
   interests: {
     type: [String],
+    default: [],
   },
   skills: {
     type: [String],
+    default: [],
   },
   profilepicture: {
     type: Object,
@@ -48,19 +50,15 @@ const employeeSchema = mongoose.Schema({
   },
   phonenumber: {
     type: String,
-    required: true,
+    default: "",
   },
   city: {
     type: String,
-    required: true,
+    default: "",
   },
   country: {
     type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
+    default: "",
   },
   linesOfCode: {
     type: Number,

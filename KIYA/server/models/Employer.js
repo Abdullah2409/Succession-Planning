@@ -11,7 +11,7 @@ const employerSchema = mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
+    default: "",
   },
   department: {
     type: String,
@@ -31,19 +31,15 @@ const employerSchema = mongoose.Schema({
   },
   phonenumber: {
     type: String,
-    required: true,
+    default: "",
   },
   city: {
     type: String,
-    required: true,
+    default: "",
   },
   country: {
     type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
+    default: "",
   },
 });
 

@@ -106,16 +106,20 @@ export default function Profile() {
   };
 
   return (
-    <section className="px-sd py-tb min-w-full flex flex-col md:flex-row justify-around items-center gap-7 md:gap-0">
-      <div className="md:self-start flex flex-col justify-center items-center gap-2">
+    <section className="px-sd py-tb flex-grow flex flex-col lg:flex-row justify-around items-center gap-7 lg:gap-0">
+      <div className="lg:self-start flex flex-col justify-center items-center gap-2">
         <div>
-          {profilepicture && (
+          {profilepicture ? (
             <div>
               <img
                 src={profilepicture}
                 className="w-[200px] h-[200px] rounded-full object-cover shadow-md border-1 border-white"
                 alt="profile-picture"
               />
+            </div>
+          ) : (
+            <div className="w-[200px] h-[200px] bg-gray-300 rounded-full flex justify-center items-center text-white text-[3rem] border">
+              {user?.name[0]}
             </div>
           )}
         </div>
@@ -142,9 +146,10 @@ export default function Profile() {
           />
         </div>
       </div>
+
       <form
         onSubmit={handleSubmit}
-        className="grid gap-5 max-w-fit md:max-w-none md:basis-[30%]"
+        className="lg:self-start grid gap-5 max-w-fit md:max-w-none md:basis-[30%]"
       >
         <div className="relative">
           <label
@@ -195,7 +200,6 @@ export default function Profile() {
             id="address"
             onChange={(e) => setAddress(e.target.value)}
             value={address}
-            required
             disabled={!editMode}
             aria-describedby="address"
           />
@@ -214,7 +218,6 @@ export default function Profile() {
             id="phone"
             onChange={(e) => setPhonenumber(e.target.value)}
             value={phonenumber}
-            required
             disabled={!editMode}
             aria-describedby="phone"
           />
@@ -232,7 +235,6 @@ export default function Profile() {
             id="city"
             onChange={(e) => setCity(e.target.value)}
             value={city}
-            required
             disabled={!editMode}
             aria-describedby="city"
           />
@@ -251,7 +253,6 @@ export default function Profile() {
             id="country"
             onChange={(e) => setCountry(e.target.value)}
             value={country}
-            required
             disabled={!editMode}
             aria-describedby="country"
           />

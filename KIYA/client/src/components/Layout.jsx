@@ -8,7 +8,7 @@ export default function Layout() {
   return (
     <div className="overflow-x-hidden">
       <Header />
-      <div className="flex px-0 md:px-0 font-roboto">
+      <div className="flex font-roboto">
         <Outlet />
       </div>
     </div>
