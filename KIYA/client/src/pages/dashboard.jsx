@@ -65,9 +65,13 @@ const FeedbackRequests = () => {
       <div style={{ marginBottom: '20px' }}>Requests for feedback</div>
       {/* Placeholder names */}
       <div style={{ marginBottom: '10px' }}>Name1</div>
+      <Link to="/employee-feedback">
       <button style={{ padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#5cb85c', color: '#fff', marginBottom: '10px' }}>Give Feedback</button>
+      </Link>
       <div style={{ marginBottom: '10px' }}>Name2</div>
+      <Link to="/employee-feedback">
       <button style={{ padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#5cb85c', color: '#fff', marginBottom: '10px' }}>Give Feedback</button>
+      </Link>
     </div>
   );
 };
