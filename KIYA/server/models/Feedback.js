@@ -2,16 +2,16 @@ import mongoose from "mongoose";
 
 const feedbackSchema = mongoose.Schema({
   employerid: {
-    type: String,
+    type: Number,
     required: true,
   },
   employeeid: {
-    type: String,
+    type: Number,
     required: true,
   },
   feedback: {
     type: String,
-    default: "",
+    required: true,
   },
   rating: {
     type: Number,

@@ -1,73 +1,61 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
-import { Link } from "react-router-dom";
-const BACKEND_URL = "http://localhost:8000"; // This is temporray and only used for development. It will be replaced with the production URL.
 
-/* This component is used to display the employees in the same department as the logged in employer. 
-It also provides the functionality to search for an employee by their employee 
-ID and give feedback. 
-*/
 export default function EmployeeFeedback() {
   const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
-  const [filteredEmployees, setFilteredEmployees] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState(null); // Track selected employee
+  const navigate = useNavigate();
 
-  // This api call is used to get the employees in the same department as the logged in employer.
   useEffect(() => {
-    fetch(`${BACKEND_URL}/employees/department/${user?.department}`)
+    fetch(`http://localhost:8000/employees/department/${user?.department}`)
       .then((res) => res.json())
-      .then((data) => {
-        setEmployees(data);
-        setFilteredEmployees(data);
-      });
-  }, []);
+      .then((data) => setEmployees(data));
+  }, [user]);
 
-  // This function is used to filter the employees based on the search query.
-  const handleSearch = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-    const filtered = employees.filter((employee) =>
-      employee.employeeID.toString().includes(query)
-    );
-    setFilteredEmployees(filtered);
+  const handleEmployeeSelect = (employee) => {
+    setSelectedEmployee(employee);
+    navigate(`/employee-feedback/${employee.employeeid}`);
   };
 
-  const employeeElements = filteredEmployees.map((employee, index) => {
-    return (
-      <div key={index}>
-        <img
-          src={employee.profilepicture}
-          style={{
-            // This is temp, will be replaced with tailwindcss
-            borderRadius: "50%",
-            width: "50px",
-            height: "50px",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            marginBottom: "-10px",
-          }}
-          alt={employee.name}
-        />
-        <h3>{employee.name}</h3>
-        <p>{employee.department}</p>
-        <p>{employee.designation}</p>
-        <Link to={`/employee-feedback/${employee.employeeid}`}>
+  const employeeElements = employees.map((employee, index) => (
+    <div
+      key={index}
+      className="p-4 bg-white shadow rounded-md flex flex-col justify-center items-center"
+      style={{ maxWidth: "200px" }}
+    >
+      <img
+        src={employee.profilepicture}
+        className="w-16 h-16 rounded-full mb-4"
+        alt={employee.name}
+      />
+      <div className="text-center">
+        <h3 className="text-lg font-semibold">{employee.name}</h3>
+        <p className="text-sm text-gray-500 mb-2">{employee.department}</p>
+        <p className="text-sm text-gray-500 mb-2">{employee.designation}</p>
+        <button
+          onClick={() => handleEmployeeSelect(employee)}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+        >
           Give Feedback
-        </Link>
+        </button>
       </div>
-    );
-  });
+    </div>
+  ));
 
   return (
-    <>
-      <h1>Employee Feedback</h1>
-      <input
-        type="text"
-        placeholder="Search by Employee ID"
-        value={searchQuery}
-        onChange={handleSearch}
-      />
-      {employees ? employeeElements : <div>Loading...</div>}
-    </>
+    <div className="max-w-screen-lg mx-auto py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <h1 className="text-2xl font-bold mb-4">Employee Feedback</h1>
+      {employeeElements}
+      {selectedEmployee && (
+        <Link
+          to={`/employee-feedback/${selectedEmployee.employeeid}`}
+          className="col-span-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+        >
+          Go to Feedback Page for {selectedEmployee.name}
+        </Link>
+      )}
+    </div>
   );
 }
