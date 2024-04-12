@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
-// import "./EmployeeFeedbackDetails.css"; // Import CSS file for styling
 
 const BACKEND_URL = "http://localhost:8000";
 
@@ -12,9 +11,6 @@ export default function EmployeeFeedbackDetails() {
   const [rating, setRating] = useState(0);
   const [employee, setEmployee] = useState("");
   const navigate = useNavigate();
-
-  const errRef = useRef();
-  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/employees/${id}`)
@@ -47,46 +43,58 @@ export default function EmployeeFeedbackDetails() {
 
       navigate("/employee-feedback");
     } catch (error) {
-      setErrMsg(error.message);
-      errRef.current.focus();
+      console.error(error.message);
     }
   };
 
   return (
-    <div className="container">
-      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
-        {errMsg}
-      </p>
-      <h1>Employee Feedback</h1>
-      <div className="employee-details">
-        <h2>{employee.name}</h2>
-        <img src={employee.profilepicture} alt={employee.name} />
-        <p>{employee.department}</p>
-        <p>{employee.designation}</p>
-        <p>{employee.email}</p>
-        <p>{employee.skills}</p>
+    <div style={{ width: "100%", textAlign: "center", marginTop: "20px" }}>
+      <div style={{ backgroundColor: "#73beb7", borderRadius: "10px", padding: "20px", marginBottom: "20px", textAlign: "left", maxWidth: "800px", margin: "0 auto",  }}>
+        <h1 style={{ margin: "0", color: "black", fontWeight: "bold" }}>Feedback Form</h1>
       </div>
-      <form onSubmit={handleSubmit}>
+      <div style={{ textAlign: "left", maxWidth: "800px", margin: "20px auto" }}>
+        <h2 style={{ color: "black" }}>{employee.name}</h2>
+        <img src={employee.profilepicture} alt={employee.name} style={{ maxWidth: "100px", borderRadius: "50%", marginBottom: "10px" }} />
+        <p style={{ color: "black" }}>Department: {employee.department}</p>
+        <p style={{ color: "black" }}>Designation: {employee.designation}</p>
+        <p style={{ color: "black" }}>Email: {employee.email}</p>
+        <p style={{ color: "black" }}>Skills: {employee.skills && Array.isArray(employee.skills) ? employee.skills.join(", ") : "Skills not available"}</p>
+      </div>
+      <form onSubmit={handleSubmit} style={{ maxWidth: "800px", margin: "0 auto" }}>
         <textarea
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
           placeholder="Write your feedback"
+          style={{ width: "100%", minHeight: "150px", marginTop: "20px", borderRadius: "5px", padding: "10px", border: "1px solid #ccc" }}
         ></textarea>
-        <div className="rating">
-          <label>Rating:</label>
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
+          <label style={{ marginRight: "10px", color: "black", fontWeight: "bold" }}>Rating:</label>
           {[1, 2, 3, 4, 5].map((value) => (
-            <input
+            <button
               key={value}
-              type="radio"
-              name="rating"
-              value={value}
-              onChange={(e) => setRating(e.target.value)}
-            />
+              type="button"
+              onClick={() => setRating(value)}
+              style={{
+                width: "60px",
+                height: "40px",
+                borderRadius: "10px",
+                border: "black 1px solid",
+                margin: "0 5px",
+                backgroundColor: rating === value ? "#f4978f" : "#ffffff",
+                color: "black",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              {value}
+            </button>
           ))}
         </div>
-        <button type="submit" disabled={!feedback || !rating}>
-          Submit
-        </button>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <button type="submit" disabled={!feedback || !rating} style={{ backgroundColor: "#f4978f", color: "black", border: "2px solid black", padding: "10px 20px", borderRadius: "5px", cursor: "pointer" }}>
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

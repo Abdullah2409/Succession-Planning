@@ -58,3 +58,6 @@ input[type="radio"]::before {
 input[type="radio"]:checked::before {
   background-color: #2196f3;
 }
+.placeholder-text-color::placeholder {
+  color: #3a3635; /* Change to your desired color */
+}
