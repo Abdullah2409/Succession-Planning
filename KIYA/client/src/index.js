@@ -16,7 +16,7 @@ import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_d
 import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
 import Profile from "./pages/profile";
-import Error from "./components/Error";
+import NotFound from "./pages/not_found"; 
 
 // Context States
 import AuthState from "./context/authstate";
@@ -48,6 +48,9 @@ function App() {
 
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+
+            {/* Route for handling 404 - Not Found */}
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </AuthState>
