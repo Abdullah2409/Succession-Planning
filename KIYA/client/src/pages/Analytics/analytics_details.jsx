@@ -1,44 +1,103 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 const BACKEND_URL = "http://localhost:8000";
 
 export default function AnalyticsDetails() {
   const { id } = useParams();
   const [employee, setEmployee] = useState(null);
-  console.log("id", id);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
- useEffect(() => {
-   const getEmployee = async () => {
-     // Define an async function
-     try {
-       const url = `${BACKEND_URL}/employees/${id}`;
-       const response = await axios.get(url);
-       setEmployee(response.data);
-       console.log("response: ", response.data);
-     } catch (error) {
-       console.error("Error fetching employees:", error);
-     }
-   };
+  useEffect(() => {
+    const getEmployee = async () => {
+      try {
+        const url = `${BACKEND_URL}/employees/${id}`;
+        const response = await axios.get(url);
+        setEmployee(response.data);
+      } catch (error) {
+        console.error("Error fetching employee:", error);
+      }
+    };
 
-   getEmployee(); // Call the async function immediately
- }, [id]);
+    getEmployee();
+  }, [id]);
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const searchEmployee = async () => {
+    navigate(`/analytics/${searchQuery}`); // For simplicity in this example
+  };
+
+  const searchContainerStyle = {
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+    margin: "0 10px 10px 0",
+    borderRadius: "5px",
+    backgroundColor: "#f4978f",
+    border: "1px solid #CBD5E0",
+    marginBottom: "40px",
+  };
+
+  const inputStyle = {
+    flexGrow: 1,
+    padding: "10px 20px",
+    border: "none",
+    outline: "none",
+    color: "#000000",
+    backgroundColor: "transparent",
+  };
+
+  const buttonStyle = {
+    padding: "10px 50px",
+    border: "2px solid #000000",
+    cursor: "pointer",
+    borderRadius: "15px",
+  };
+
+  const sidebarStyle = {
+    backgroundColor: "white",
+    padding: "20px",
+    minHeight: "100vh",
+  };
+
+  const h2Style = {
+    marginLeft: "30px",
+    fontWeight: "bold",
+    fontSize: "24px",
+  };
 
   return (
-    <div>
-      {employee ? (
-        <div className="employee-details">
-          <img src={employee.imageUrl} />
-          <div className="employee-info">
-            <h2>{employee.name}</h2>
-            <p>{employee.position}</p>
-            <p>{employee.email}</p>
-            <p>{employee.phone}</p>
-          </div>
+    <div style={{ display: "flex", width: "100%" }}>
+      <aside style={sidebarStyle}>{}</aside>
+      <main style={{ flex: "1", padding: "20px" }}>
+        <div style={searchContainerStyle}>
+          <input
+            type="text"
+            placeholder="Search Employee ID"
+            style={inputStyle}
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          <button onClick={searchEmployee} style={buttonStyle}>
+            Search
+          </button>
         </div>
-      ) : (
-        <h2>Loading...</h2>
-      )}
+        <div>
+          {employee ? (
+            <div className="employee-details">
+              <div className="employee-info">
+                <h2 style={h2Style}>{employee.name}</h2>
+              </div>
+            </div>
+          ) : (
+            <h2>Loading...</h2>
+          )}
+        </div>
+      </main>
     </div>
   );
 }

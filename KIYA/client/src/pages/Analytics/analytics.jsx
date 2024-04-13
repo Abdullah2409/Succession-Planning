@@ -53,7 +53,7 @@ export default function Analytics() {
     padding: "10px 20px",
     border: "none",
     outline: "none",
-    color: "#333333",
+    color: "#000000", // Change the color to black
     backgroundColor: "transparent",
   };
 
@@ -96,7 +96,7 @@ export default function Analytics() {
         <div style={searchContainerStyle}>
           <input
             type="text"
-            placeholder="Enter Employee ID"
+            placeholder="Search Employee ID"
             style={inputStyle}
             value={searchQuery}
             onChange={handleSearchChange}
