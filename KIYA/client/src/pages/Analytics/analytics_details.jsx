@@ -1,15 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+const BACKEND_URL = "http://localhost:8000";
 
 export default function AnalyticsDetails() {
   const { id } = useParams();
-  const [employee, setemployee] = useState(null);
+  const [employee, setEmployee] = useState(null);
+  console.log("id", id);
 
-  useEffect(() => {
-    fetch(`/api/employees/${id}`)
-      .then((res) => res.json())
-      .then((data) => setemployee(data.employees));
-  }, [id]);
+ useEffect(() => {
+   const getEmployee = async () => {
+     // Define an async function
+     try {
+       const url = `${BACKEND_URL}/employees/${id}`;
+       const response = await axios.get(url);
+       setEmployee(response.data);
+       console.log("response: ", response.data);
+     } catch (error) {
+       console.error("Error fetching employees:", error);
+     }
+   };
+
+   getEmployee(); // Call the async function immediately
+ }, [id]);
 
   return (
     <div>
