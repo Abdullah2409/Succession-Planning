@@ -59,7 +59,6 @@ export default function Analytics() {
 
   const buttonStyle = {
     padding: "10px 50px", // Increase the padding to make the button longer horizontally
-    border: "1px solid #000000",
     border: "2px solid #000000",
     cursor: "pointer",
     borderRadius: "15px", // Increase the border radius to make the edges rounder
