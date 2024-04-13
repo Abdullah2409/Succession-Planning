@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import CustomBarChart from "../../components/Barchart";
 const BACKEND_URL = "http://localhost:8000";
 
 export default function AnalyticsDetails() {
@@ -70,6 +71,15 @@ export default function AnalyticsDetails() {
     fontSize: "24px",
   };
 
+  const barChartContainerStyle = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "left",
+    flexWrap: "wrap",
+    gap: "125px",
+  };
+
   return (
     <div style={{ display: "flex", width: "100%" }}>
       <aside style={sidebarStyle}>{}</aside>
@@ -89,8 +99,30 @@ export default function AnalyticsDetails() {
         <div>
           {employee ? (
             <div className="employee-details">
-              <div className="employee-info">
+              <div style={{ marginBottom: "20px" }}>
                 <h2 style={h2Style}>{employee.name}</h2>
+              </div>
+              <div style={barChartContainerStyle}>
+                <CustomBarChart
+                  name={"Lines of Code"}
+                  current={employee.linesOfCode}
+                  required={1500}
+                />
+                <CustomBarChart
+                  name={"Training Programs"}
+                  current={employee.trainingPrograms}
+                  required={5}
+                />
+                <CustomBarChart
+                  name={"Feature 1"}
+                  current={employee.linesOfCode}
+                  required={1500}
+                />
+                {/* <CustomBarChart
+                  name={"Feature 1"}
+                  current={employee.linesOfCode}
+                  required={1500}
+                /> */}
               </div>
             </div>
           ) : (
