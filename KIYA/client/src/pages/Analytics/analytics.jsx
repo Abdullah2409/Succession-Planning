@@ -23,7 +23,6 @@ export default function Analytics() {
       const url = `${BACKEND_URL}/employees/department/${user?.department}`;
       const response = await axios.get(url);
       setEmployees(response.data);
-      console.log("response: ", response.data);
     } catch (error) {
       console.error("Error fetching employees:", error);
     }

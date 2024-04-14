@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: "jit",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
@@ -7,10 +8,6 @@ module.exports = {
       md: "768px",
       lg: "976px",
       xl: "1440px",
-    },
-    colors: {
-      primary: "#73BEB7",
-      secondary: "#F4978F",
     },
     fontFamily: {
       roboto: ["Roboto", "sans-serif"],
@@ -29,7 +26,12 @@ module.exports = {
       "heading-mobile": ["35px", "50px"],
       "heading-desktop": ["40px", "60px"],
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#73BEB7",
+        secondary: "#F4978F",
+      },
+    },
   },
   plugins: [],
 };
