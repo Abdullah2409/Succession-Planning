@@ -41,6 +41,19 @@ const employerSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  feedbackRequests: {
+    type: [
+      {
+        employeeid: {
+          type: Number,
+        },
+        taskTitle: {
+          type: String,
+        },
+      },
+    ],
+    default: [],
+  },
 });
 
 const Employer = mongoose.model("Employer", employerSchema);

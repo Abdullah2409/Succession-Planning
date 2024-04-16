@@ -6,7 +6,7 @@ import AuthRequired from "./components/AuthRequired";
 import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
 import Home from "./pages/home";
-import Dashboard from "./pages/dashboard";
+import Dashboard, { SpecificTask } from "./pages/dashboard";
 import Analytics from "./pages/Analytics/analytics";
 import AnalyticsDetails from "./pages/Analytics/analytics_details";
 import EmployeeSuccession from "./pages/EmployeeSuccession/employee_succession";
@@ -33,6 +33,7 @@ function App() {
 
             <Route element={<AuthRequired />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard/task/:id" element={<SpecificTask />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/analytics/:id" element={<AnalyticsDetails />} />
               <Route path="/employee-feedback" element={<EmployeeFeeback />} />

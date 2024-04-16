@@ -3,7 +3,6 @@ import User from "../models/User.js";
 
 // @desc Get all employees
 // @route GET /employees
-// @access Private
 export const getEmployees = async (req, res) => {
   try {
     const employees = await Employee.find();
@@ -18,7 +17,6 @@ export const getEmployees = async (req, res) => {
 
 // @desc Create new employee
 // @route POST /employees
-// @access Private
 export const createEmployee = async (req, res) => {
   const employeeData = req.body;
   if (!employeeData) {
@@ -63,7 +61,6 @@ export const createEmployee = async (req, res) => {
 
 // @desc Update an employee
 // @route PATCH /employees/:id
-// @access Private
 export const updateEmployee = async (req, res) => {
   let { id } = req.params;
   const { name, address, phonenumber, city, country, profilepicture, skills } =
@@ -104,7 +101,6 @@ export const updateEmployee = async (req, res) => {
 
 // @desc Delete an employee
 // @route DELETE /employees/:id
-// @access Private
 export const deleteEmployee = async (req, res) => {
   let { id } = req.params;
   try {
@@ -126,7 +122,6 @@ export const deleteEmployee = async (req, res) => {
 
 // @desc Get an employee
 // @route GET /employees/:id
-// @access Private
 export const getEmployee = async (req, res) => {
   let { id } = req.params;
   try {
@@ -148,7 +143,6 @@ export const getEmployee = async (req, res) => {
 
 // @desc Get employees by department
 // @route GET /employees/department/:department
-// @access Private
 export const getDepartmentEmployees = async (req, res) => {
   const { department } = req.params;
   try {
