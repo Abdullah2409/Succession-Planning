@@ -7,7 +7,6 @@ import CustomBarChart from "../components/Barchart";
 
 const BACKEND_URL = "http://localhost:8000"; // This is temporary for development. Will be replaced with production URL
 
-// A simple component for the profile card
 const ProfileCard = ({ user }) => {
   return (
     <div className="p-5 grid grid-rows-1 self-stretch border border-gray-300 bg-[#F7F7F7] rounded-lg">
@@ -16,7 +15,7 @@ const ProfileCard = ({ user }) => {
           <img
             src={user.profilepicture}
             alt="Profile"
-            className="w-32 aspect-square rounded-full"
+            className="w-32 aspect-square rounded-full object-cover shadow-md border-1 border-white "
           />
         ) : (
           <div className="w-16 h-16 rounded-full bg-gray-400" />
@@ -38,7 +37,6 @@ const ProfileCard = ({ user }) => {
   );
 };
 
-// Component for displaying pending tasks
 const PendingTasks = ({ tasks }) => {
   const taskElements = tasks.map((task, index) => (
     <Link
@@ -64,7 +62,7 @@ const PendingTasks = ({ tasks }) => {
 export const SpecificTask = () => {
   const { user } = useContext(AuthContext);
   const userRole = user?.role.toLowerCase();
-  const { id } = useParams();
+  const { id } = useParams(); // task id
   const [task, setTask] = useState({});
   const navigate = useNavigate();
 
@@ -126,6 +124,21 @@ export const SpecificTask = () => {
           <span>{task.employeeid}</span>
         </div>
         {userRole === "employee" && (
+          <div className="bg-primary p-3 rounded-[22px] flex justify-between items-center">
+            <span className="font-bold">Skills:</span>
+            <span>
+              {task?.skills?.map((skill, index) => {
+                return (
+                  <div key={index}>
+                    {skill.name} - {skill.boost}
+                  </div>
+                );
+              })}
+            </span>
+          </div>
+        )}
+
+        {userRole === "employee" && (
           <div className="flex justify-center mt-5">
             <div>
               <Button
@@ -145,7 +158,6 @@ export const SpecificTask = () => {
   );
 };
 
-// Component for feedback requests
 const FeedbackRequests = ({ user }) => {
   const createFeedbackRequestElements = () => {
     return user?.feedbackRequests.map((request, index) => (
@@ -185,7 +197,41 @@ const FeedbackRequests = ({ user }) => {
 
 const AnalyticsDetails = ({ user }) => {
   const [employee, setEmployee] = useState(null);
+  const [skillsData, setSkillsData] = useState([]);
   const navigate = useNavigate();
+
+  const createBarCharts = () => {
+    if (!employee || employee?.skills.length === 0) return "No data available";
+    return employee.skills.map((skill, index) => {
+      const requiredSkill = skillsData.find((data) => data.name === skill.name);
+      return (
+        <CustomBarChart
+          key={index}
+          name={skill.name}
+          current={skill.points}
+          intermediate={requiredSkill.levels.intermediate}
+          advance={requiredSkill.levels.advance}
+          width={150}
+        />
+      );
+    });
+  };
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/skills`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSkillsData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/employees/${user.employeeid}`, {
@@ -204,7 +250,7 @@ const AnalyticsDetails = ({ user }) => {
   }, []);
 
   return (
-    <div className="bg-[#F7F7F7] p-md col-span-2 grid grid-rows-1 self-stretch rounded-lg border border-gray-300">
+    <div className="bg-[#F7F7F7] p-md col-span-4 grid grid-rows-1 self-stretch rounded-lg border border-gray-300">
       <div className="employee-details">
         <div className="flex justify-between items-center mb-5">
           <h2 className="font-semibold">Employee Development Statistics</h2>
@@ -215,32 +261,12 @@ const AnalyticsDetails = ({ user }) => {
             VIEW MORE
           </Link>
         </div>
-        <div className="flex">
-          <CustomBarChart
-            name={"Lines of Code"}
-            current={employee?.linesOfCode}
-            required={1500}
-            width={150}
-          />
-          <CustomBarChart
-            name={"Training Programs"}
-            current={employee?.trainingPrograms}
-            required={5}
-            width={150}
-          />
-          <CustomBarChart
-            name={"Feature 1"}
-            current={1000}
-            required={1500}
-            width={150}
-          />
-        </div>
+        <div className="flex gap-5 flex-wrap ">{createBarCharts()}</div>
       </div>
     </div>
   );
 };
 
-// Component for the statistics chart (placeholder)
 const StatisticsChart = ({ user }) => {
   const userRole = user?.role.toLowerCase();
   const [tasks, setTasks] = useState([]);
