@@ -15,6 +15,7 @@ import EmployeeFeeback from "./pages/EmployeeFeedback/employee_feedback";
 import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_details";
 import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
+import SkillSearchDetails from "./pages/skill_search_details";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not_found";
 
@@ -47,6 +48,14 @@ function App() {
               <Route
                 path="/employee-feedback/:id"
                 element={<EmployeeFeebackDetails />}
+              />
+              <Route
+                path="/skill-search"
+                element={<SkillSearch />}
+              />
+              <Route
+                path="/skill-search/:id"
+                element={<SkillSearchDetails />}
               />
               <Route path="/profile" element={<Profile />} />
             </Route>
