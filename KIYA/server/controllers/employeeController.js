@@ -158,3 +158,19 @@ export const getDepartmentEmployees = async (req, res) => {
     console.error("Error fetching employees:", error);
   }
 };
+
+export const getTasksEmployees = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const employees = await Employee.find({ id });
+    if (!employees) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+    res.status(200).json(employees);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch employees", error: error.message });
+    console.error("Error fetching employees:", error);
+  }
+};

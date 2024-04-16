@@ -28,5 +28,4 @@ router.get("/:id", getEmployee);
 
 // For getting department
 router.get("/department/:department", getDepartmentEmployees);
-
 export default router;
