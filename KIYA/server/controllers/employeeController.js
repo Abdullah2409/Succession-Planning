@@ -62,35 +62,18 @@ export const createEmployee = async (req, res) => {
 // @desc Update an employee
 // @route PATCH /employees/:id
 export const updateEmployee = async (req, res) => {
-  let { id } = req.params;
-  const { name, address, phonenumber, city, country, profilepicture, skills } =
-    req.body;
-
+  const updatedEmployee = req.body;
   try {
-    id = parseInt(id, 10);
-    const employee = await Employee.findOne({ employeeid: id });
-
+    const employee = await Employee.findById(updatedEmployee._id);
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    employee.name = name || employee.name;
-    employee.address = address || employee.address;
-    employee.phonenumber = phonenumber || employee.phonenumber;
-    employee.city = city || employee.city;
-    employee.country = country || employee.country;
-    employee.profilepicture = profilepicture || employee.profilepicture;
-    employee.skills = skills || employee.skills;
+    // Update the employee object
+    employee.set(updatedEmployee);
     await employee.save();
 
-    const user = await User.findOne({
-      id: employee.employeeid,
-      role: "Employee",
-    });
-    user.name = name || user.name;
-    await user.save();
-
-    res.status(200).json(employee);
+    res.status(200).json(updatedEmployee);
   } catch (error) {
     res
       .status(500)
@@ -98,6 +81,44 @@ export const updateEmployee = async (req, res) => {
     console.error("Error updating employee:", error);
   }
 };
+
+// export const updateEmployee = async (req, res) => {
+//   let { id } = req.params;
+//   const { name, address, phonenumber, city, country, profilepicture, skills } =
+//     req.body;
+
+//   try {
+//     id = parseInt(id, 10);
+//     const employee = await Employee.findOne({ employeeid: id });
+
+//     if (!employee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     employee.name = name || employee.name;
+//     employee.address = address || employee.address;
+//     employee.phonenumber = phonenumber || employee.phonenumber;
+//     employee.city = city || employee.city;
+//     employee.country = country || employee.country;
+//     employee.profilepicture = profilepicture || employee.profilepicture;
+//     employee.skills = skills || employee.skills;
+//     await employee.save();
+
+//     const user = await User.findOne({
+//       id: employee.employeeid,
+//       role: "Employee",
+//     });
+//     user.name = name || user.name;
+//     await user.save();
+
+//     res.status(200).json(employee);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Failed to update employee", error: error.message });
+//     console.error("Error updating employee:", error);
+//   }
+// };
 
 // @desc Delete an employee
 // @route DELETE /employees/:id

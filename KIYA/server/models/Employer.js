@@ -50,6 +50,18 @@ const employerSchema = mongoose.Schema({
         taskTitle: {
           type: String,
         },
+        skills: {
+          type: [
+            {
+              name: {
+                type: String,
+              },
+              boost: {
+                type: Number,
+              },
+            },
+          ],
+        },
       },
     ],
     default: [],

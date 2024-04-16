@@ -25,10 +25,6 @@ const employeeSchema = mongoose.Schema({
     type: [String],
     default: [],
   },
-  skills: {
-    type: [String],
-    default: [],
-  },
   profilepicture: {
     type: Object,
     default: {},
@@ -61,12 +57,43 @@ const employeeSchema = mongoose.Schema({
     default: "",
   },
   linesOfCode: {
+    // will remove this
     type: Number,
     default: 0,
   },
   trainingPrograms: {
-    type: Number,
-    default: 0,
+    type: [
+      {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Program",
+        },
+        status: {
+          type: String,
+          default: "pending",
+        },
+      },
+    ],
+    default: [],
+  },
+  skills: {
+    type: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        level: {
+          type: String,
+          default: "beginner",
+        },
+        points: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
+    default: [],
   },
 });
 

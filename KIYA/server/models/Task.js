@@ -25,6 +25,18 @@ const taskSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  skills: {
+    type: [
+      {
+        name: {
+          type: String,
+        },
+        boost: {
+          type: Number,
+        },
+      },
+    ],
+  },
 });
 
 const Task = mongoose.model("Task", taskSchema);

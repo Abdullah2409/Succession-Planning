@@ -44,6 +44,7 @@ export const updateTask = async (req, res) => {
     employer.feedbackRequests.push({
       employeeid: task.employeeid,
       taskTitle: task.title,
+      skills: task.skills,
     });
     await employer.save();
 
