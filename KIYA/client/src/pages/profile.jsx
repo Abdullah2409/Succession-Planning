@@ -19,7 +19,7 @@ export default function Profile() {
   const [profilepicture, setProfilePicture] = useState(
     user?.profilepicture || ""
   );
-  const [skills, setSkills] = useState(user?.skills || []);
+  // const [skills, setSkills] = useState(user?.skills || []);
   const [editMode, setEditMode] = useState(false);
 
   // if the user cancel the changes, the form will be reset to the original values.
@@ -31,7 +31,7 @@ export default function Profile() {
       setCity(user?.city);
       setCountry(user?.country || "");
       setProfilePicture(user?.profilepicture);
-      setSkills(user?.skills || []);
+      // setSkills(user?.skills || []);
     }
   }, [editMode]);
 
@@ -75,7 +75,7 @@ export default function Profile() {
         city,
         country,
         profilepicture,
-        skills,
+        // skills,
       }),
     };
 
@@ -247,7 +247,7 @@ export default function Profile() {
           />
         </div>
 
-        {/* The skills field will only be rendered when the user is an employee */}
+        {/* The skills field will only be rendered when the user is an employee
         {user?.role === "Employee" && (
           <div className="relative">
             <div>
@@ -306,7 +306,7 @@ export default function Profile() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {editMode ? (
           <div className="flex gap-3 items-center justify-center">

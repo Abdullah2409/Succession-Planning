@@ -39,11 +39,69 @@ export default function EmployeeFeedbackDetails() {
       .catch((error) => console.error("Error updating user:", error));
   };
 
+  const updateEmployeeSkills = async () => {
+    const skills = user.feedbackRequests.find(
+      (request) => request._id.toString() === feedbackRequestId
+    ).skills;
+
+    employee.skills = employee.skills.map((skill) => {
+      const updatedSkill = skills.find((s) => s.name === skill.name);
+      if (updatedSkill) {
+        skill.points += updatedSkill.boost * (rating / 10);
+      }
+      return skill;
+    });
+
+    // skills that are not in the employee's skills array will be added
+    skills.forEach((skill) => {
+      if (!employee.skills.find((s) => s.name === skill.name)) {
+        employee.skills.push({
+          name: skill.name,
+          level: "beginner",
+          points: skill.boost * (rating / 10),
+        });
+      }
+    });
+
+    // changing the skills level based on points
+    const _requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    const res = await fetch(`${BACKEND_URL}/skills`, _requestOptions);
+    const skillData = await res.json();
+
+    employee.skills = employee.skills.map((skill) => {
+      const skillInfo = skillData.find((s) => s.name === skill.name);
+      if (skillInfo) {
+        if (skill.points >= skillInfo.levels.intermediate) {
+          skill.level = "intermediate";
+        } else if (skill.points >= skillInfo.levels.advance) {
+          skill.level = "advance";
+        }
+      }
+      return skill;
+    });
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(employee),
+    };
+
+    fetch(`${BACKEND_URL}/employees/${employee._id}`, requestOptions)
+      .then((res) => res.json())
+      .then((data) => setEmployee(data))
+      .catch((error) => console.error("Error updating employee:", error));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     {
-      feedbackRequestId && updateEmployerFeedbackQueue(); // updates employer feedback queue if the feedback is requested
+      feedbackRequestId &&
+        updateEmployeeSkills() &&
+        updateEmployerFeedbackQueue();
     }
 
     const requestOptions = {
@@ -108,12 +166,20 @@ export default function EmployeeFeedbackDetails() {
         <p style={{ color: "black" }}>Department: {employee.department}</p>
         <p style={{ color: "black" }}>Designation: {employee.designation}</p>
         <p style={{ color: "black" }}>Email: {employee.email}</p>
-        <p style={{ color: "black" }}>
+        <div style={{ color: "black" }}>
           Skills:{" "}
-          {employee.skills && Array.isArray(employee.skills)
-            ? employee.skills.join(", ")
-            : "Skills not available"}
-        </p>
+          {employee.skills && employee.skills.length > 0 ? (
+            <ul>
+              {employee.skills.map((skill) => (
+                <li key={skill.name}>
+                  {skill.name} - {skill.points}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            "Skills not available"
+          )}
+        </div>
       </div>
       <form
         onSubmit={handleSubmit}
