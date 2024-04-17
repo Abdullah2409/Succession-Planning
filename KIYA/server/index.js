@@ -29,7 +29,7 @@ app.use("/skills", skilRoutes);
 
 // Connect to MongoDB and start the server
 dotenv.config();
-const CONNECTION_URL = "mongodb+srv://adil:3RweZM4hKoV3iGPE@cluster0.vuftkur.mongodb.net/SuccessionPlanning?retryWrites=true&w=majority&appName=Cluster0" //process.env.CONNECTION_URL;
+const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT || 8000;
 mongoose
   .connect(CONNECTION_URL)

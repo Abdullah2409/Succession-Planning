@@ -221,7 +221,7 @@ const seedDatabase = async (numTasks) => {
 seedDatabase(5);
  */
 
-import mongoose from "mongoose";
+/* import mongoose from "mongoose";
 import Task from "./models/Task.js";
 
 // Connect to MongoDB Atlas
@@ -291,3 +291,57 @@ const seedDatabase = async (numTasks) => {
 
 // Seed the database with 5 fake tasks
 seedDatabase(5);
+ */
+
+import mongoose from "mongoose";
+import Program from "./models/Program.js";
+
+// Connect to MongoDB Atlas
+mongoose.connect(
+  "mongodb+srv://adil:3RweZM4hKoV3iGPE@cluster0.vuftkur.mongodb.net/SuccessionPlanning?retryWrites=true&w=majority&appName=Cluster0",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
+
+// Function to generate a random skill
+const generateSkill = () => {
+  const skills = ["coding", "communication", "problem-solving", "leadership"];
+  const skill = skills[Math.floor(Math.random() * skills.length)];
+  const boost = Math.floor(Math.random() * 100); // Random boost level less than 100
+  return { name: skill, boost: boost };
+};
+
+// Function to generate fake seeding data for programs
+const seedPrograms = async (numPrograms) => {
+  try {
+    // Clear existing programs
+    await Program.deleteMany();
+
+    // Generate and save new programs
+    const programsData = Array.from({ length: numPrograms }, (_, index) => {
+      const numSkills = Math.floor(Math.random() * 3) + 1; // Random number of skills between 1 and 3
+      const skills = Array.from({ length: numSkills }, generateSkill);
+
+      return {
+        name: `Program ${index + 1}`,
+        description: `Description for Program ${index + 1}`,
+        skills,
+        url: `https://example.com/program-${index + 1}`,
+      };
+    });
+
+    await Program.create(programsData);
+
+    console.log(`${numPrograms} programs seeded successfully.`);
+  } catch (error) {
+    console.error("Error seeding programs:", error);
+  } finally {
+    // Disconnect from MongoDB
+    mongoose.disconnect();
+  }
+};
+
+// Seed the database with a specified number of fake programs
+seedPrograms(5); // Change the number as needed

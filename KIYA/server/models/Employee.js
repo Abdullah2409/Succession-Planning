@@ -70,7 +70,7 @@ const employeeSchema = mongoose.Schema({
         },
         status: {
           type: String,
-          default: "pending",
+          default: "inprogress",
         },
       },
     ],
