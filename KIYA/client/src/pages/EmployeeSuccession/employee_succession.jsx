@@ -16,20 +16,20 @@ export default function EmployeeSuccession() {
   const [model, setModel] = useState(null);
   const [loadingModel, setLoadingModel] = useState(true);
 
-  // // Load TensorFlow.js model
-  // useEffect(() => {
-  //   async function loadModel() {
-  //     try {
-  //       const loadedModel = await tf.loadLayersModel(`${BACKEND_URL}/my-promotion-model/model.json`);
-  //       setModel(loadedModel);
-  //       setLoadingModel(false); // Model loaded successfully
-  //     } catch (error) {
-  //       console.error('Error loading the model:', error);
-  //       setLoadingModel(false); // Model loading failed
-  //     }
-  //   }
-  //   loadModel();
-  // }, []);
+  // Load TensorFlow.js model
+  useEffect(() => {
+    async function loadModel() {
+      try {
+        const loadedModel = await tf.loadLayersModel(`${BACKEND_URL}/my-promotion-model/model.json`);
+        setModel(loadedModel);
+        setLoadingModel(false); // Model loaded successfully
+      } catch (error) {
+        console.error('Error loading the model:', error);
+        setLoadingModel(false); // Model loading failed
+      }
+    }
+    loadModel();
+  }, []);
 
   // Fetch employees based on the user's department
   useEffect(() => {
