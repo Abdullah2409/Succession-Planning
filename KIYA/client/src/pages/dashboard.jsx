@@ -258,7 +258,7 @@ const AnalyticsDetails = ({ user }) => {
         <div className="flex justify-between items-center mb-5">
           <h2 className="font-semibold">Employee Development Statistics</h2>
           <Link
-            to={`/analytics/${user.employeeid}`}
+            to={`/advance-analytics/${user.employeeid}`}
             className="px-4 py-2 text-slate-600 text-[.75rem] underline font-bold"
           >
             VIEW MORE

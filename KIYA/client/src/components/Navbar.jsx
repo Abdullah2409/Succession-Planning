@@ -6,9 +6,7 @@ import {
   FaRegListAlt,
   FaRegComments,
   FaWpforms,
-  FaCog,
   FaChartLine,
-  FaQuestionCircle,
   FaUser,
 } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri";

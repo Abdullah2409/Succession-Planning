@@ -63,17 +63,20 @@ export const createEmployee = async (req, res) => {
 // @route PATCH /employees/:id
 export const updateEmployee = async (req, res) => {
   const updatedEmployee = req.body;
+  const employeeId = updatedEmployee._id;
+
   try {
-    const employee = await Employee.findById(updatedEmployee._id);
-    if (!employee) {
+    const updatedDocument = await Employee.findOneAndUpdate(
+      { _id: employeeId },
+      { $set: updatedEmployee },
+      { new: true }
+    );
+
+    if (!updatedDocument) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    // Update the employee object
-    employee.set(updatedEmployee);
-    await employee.save();
-
-    res.status(200).json(updatedEmployee);
+    res.status(200).json(updatedDocument);
   } catch (error) {
     res
       .status(500)
@@ -81,6 +84,29 @@ export const updateEmployee = async (req, res) => {
     console.error("Error updating employee:", error);
   }
 };
+
+// export const updateEmployee = async (req, res) => {
+//   const updatedEmployee = req.body;
+//   console.log("EmployeeiD: ", updatedEmployee._id, typeof updatedEmployee._id);
+
+//   try {
+//     const employee = await Employee.findById(updatedEmployee._id);
+//     if (!employee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     // Update the employee object
+//     employee.set(updatedEmployee);
+//     await employee.save();
+
+//     res.status(200).json(updatedEmployee);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Failed to update employee", error: error.message });
+//     console.error("Error updating employee:", error);
+//   }
+// };
 
 // export const updateEmployee = async (req, res) => {
 //   let { id } = req.params;
