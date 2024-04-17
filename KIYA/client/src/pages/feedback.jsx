@@ -23,7 +23,10 @@ export default function EmployeeFeedbackView() {
   }, [id, user]);
 
   return (
-    <div style={{ width: "100%", textAlign: "center", marginTop: "20px" }}>
+    <div
+      className="p-md"
+      style={{ width: "100%", textAlign: "center", marginTop: "20px" }}
+    >
       <div
         style={{
           backgroundColor: "#73beb7",
@@ -36,7 +39,7 @@ export default function EmployeeFeedbackView() {
         }}
       >
         <h1 style={{ margin: "0", color: "black", fontWeight: "bold" }}>
-          Received Feedback
+          Received Feedbacks
         </h1>
       </div>
       {feedbacks.length > 0 ? (
@@ -53,9 +56,9 @@ export default function EmployeeFeedbackView() {
               }}
             >
               <h3 style={{ color: "black" }}>
-                Feedback from: {feedback.employerName}
+                Feedback from: {feedback.employerid}
               </h3>
-              <p style={{ color: "black" }}>Feedback: {feedback.content}</p>
+              <p style={{ color: "black" }}>Feedback: {feedback.feedback}</p>
               <p style={{ color: "black" }}>Rating: {feedback.rating}</p>
             </div>
           ))}

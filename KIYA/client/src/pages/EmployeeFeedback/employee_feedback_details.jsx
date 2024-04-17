@@ -126,7 +126,7 @@ export default function EmployeeFeedbackDetails() {
       {
         feedbackRequestId
           ? navigate("/dashboard")
-          : navigate("/feedback-requests");
+          : navigate("/employee-feedback");
       }
     } catch (error) {
       console.error(error.message);
