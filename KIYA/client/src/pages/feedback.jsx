@@ -10,19 +10,16 @@ export default function EmployeeFeedbackView() {
   const [feedbacks, setFeedbacks] = useState([]);
 
   useEffect(() => {
-    if (user && user.id === id) {
-      // Check if logged-in user is the same as the employee ID from URL
-      fetch(`${BACKEND_URL}/feedbacks/employee/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data && Array.isArray(data)) {
-            setFeedbacks(data);
-          } else {
-            throw new Error("No feedback found");
-          }
-        })
-        .catch((error) => console.error("Error fetching feedback:", error));
-    }
+    fetch(`${BACKEND_URL}/feedback/employee/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && Array.isArray(data)) {
+          setFeedbacks(data);
+        } else {
+          throw new Error("No feedback found");
+        }
+      })
+      .catch((error) => console.error("Error fetching feedback:", error));
   }, [id, user]);
 
   return (

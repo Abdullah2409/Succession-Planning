@@ -5,12 +5,16 @@ import {
   addFeedback,
   updateFeedback,
   deleteFeedback,
+  getFeedbackByEmployee,
 } from "../controllers/feedbackController.js";
 
 const router = express.Router();
 
 // For getting feedback
 router.get("/", getFeedback);
+
+// For getting feedback by employee
+router.get("/employee/:id", getFeedbackByEmployee);
 
 // For posting feedback about an employee
 router.post("/", addFeedback);
