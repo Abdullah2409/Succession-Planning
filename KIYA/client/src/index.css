@@ -61,3 +61,49 @@ input[type="radio"]:checked::before {
 .placeholder-text-color::placeholder {
   color: #3a3635; /* Change to your desired color */
 }
+
+.blue-box {
+  background-color: #73BEB7;
+  padding: 10px;
+  border-radius: 1px;
+  border: 2px solid #000;
+  max-width: 500px;
+  position: relative; /* Make the box a positioned parent */
+}
+
+.blue-box label {
+  color: black;
+  display: flex;
+  align-items: center; /* Align items vertically in the label */
+}
+
+.blue-box input[type="checkbox"] {
+  display: none;
+}
+
+.blue-box input[type="checkbox"] + span.checkmark {
+  position: absolute; /* Position the checkmark relative to the box */
+  top: 50%; /* Align vertically in the middle */
+  right: 10px; /* Align to the right side */
+  transform: translateY(-50%); /* Adjust for vertical centering */
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.blue-box input[type="checkbox"]:checked + span.checkmark::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 10px; /* Adjust size of the check mark */
+  height: 5px; /* Adjust size of the check mark */
+  border: 2px solid white; /* Create a white check mark */
+  border-top: none; /* Hide top border to create the check mark shape */
+  border-right: none; /* Hide right border to create the check mark shape */
+  transform-origin: center; /* Set the transform origin to the center */
+  transform: rotate(-45deg); /* Rotate the check mark to form a tick */
+}
+
