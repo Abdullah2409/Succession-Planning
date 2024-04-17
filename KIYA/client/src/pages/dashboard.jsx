@@ -11,7 +11,7 @@ const ProfileCard = ({ user }) => {
   return (
     <div className="p-5 grid grid-rows-1 self-stretch border border-gray-300 bg-[#F7F7F7] rounded-lg">
       <div className="flex items-center justify-center mb-5">
-        {user.profilepicture ? (
+        {user?.profilepicture ? (
           <img
             src={user.profilepicture}
             alt="Profile"
@@ -22,8 +22,8 @@ const ProfileCard = ({ user }) => {
         )}
       </div>
       <div className="text-center">
-        <div className="font-semibold mb-2">{user.name}</div>
-        <div className="text-gray-500">{user.role}</div>
+        <div className="font-semibold mb-2">{user?.name}</div>
+        <div className="text-gray-500">{user?.role}</div>
       </div>
       <div className="text-center mt-5">
         <Link
@@ -237,7 +237,7 @@ const AnalyticsDetails = ({ user }) => {
   }, []);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/employees/${user.employeeid}`, {
+    fetch(`${BACKEND_URL}/employees/${user?.employeeid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -258,7 +258,7 @@ const AnalyticsDetails = ({ user }) => {
         <div className="flex justify-between items-center mb-5">
           <h2 className="font-semibold">Employee Development Statistics</h2>
           <Link
-            to={`/advance-analytics/${user.employeeid}`}
+            to={`/advance-analytics/${user?.employeeid}`}
             className="px-4 py-2 text-slate-600 text-[.75rem] underline font-bold"
           >
             VIEW MORE
@@ -325,8 +325,8 @@ const StatisticsChart = ({ user }) => {
         setTasks(
           data.filter((task) =>
             userRole === "employer"
-              ? task.employerid === user.id
-              : task.employeeid === user.id
+              ? task.employerid === user?.id
+              : task.employeeid === user?.id
           )
         );
       })
@@ -370,8 +370,8 @@ export default function Dashboard() {
             (task) =>
               !task.isCompleted &&
               (userRole === "employer"
-                ? task.employerid === user.id
-                : task.employeeid === user.id)
+                ? task.employerid === user?.id
+                : task.employeeid === user?.id)
           )
         );
       })
@@ -382,7 +382,7 @@ export default function Dashboard() {
 
   // fetch updated user data
   useEffect(() => {
-    fetch(`${BACKEND_URL}/${userRole}s/${user.id}`, {
+    fetch(`${BACKEND_URL}/${userRole}s/${user?.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

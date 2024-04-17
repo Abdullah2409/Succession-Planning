@@ -63,7 +63,7 @@ export default function Profile() {
     e?.preventDefault();
 
     const UPDATE_PROFILE_URL =
-      BACKEND_URL + `/${(user?.role).toLowerCase()}s/${user?.id}`;
+      BACKEND_URL + `/${user?.role?.toLowerCase()}s/${user?.id}`;
     const requestOptions = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
