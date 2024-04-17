@@ -3,7 +3,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import AnalyticsDetails from "./Analytics/analytics_details";
 import AuthContext from "../context/authcontext";
 import Button from "../components/Button";
-const BACKEND_URL = "http://localhost:8000";
+import { backendUrl } from "../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 export default function AdvanceAnalytics() {
   const { user, setUser } = useContext(AuthContext);

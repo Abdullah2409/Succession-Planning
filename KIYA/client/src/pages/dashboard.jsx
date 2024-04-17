@@ -4,8 +4,8 @@ import AuthContext from "../context/authcontext";
 import Button from "../components/Button";
 import PieChart from "../components/Pichart";
 import CustomBarChart from "../components/Barchart";
-
-const BACKEND_URL = "http://localhost:8000"; // This is temporary for development. Will be replaced with production URL
+import { backendUrl } from "../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 const ProfileCard = ({ user }) => {
   return (

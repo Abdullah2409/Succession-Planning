@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
+import { backendUrl } from "../../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 export default function EmployeeFeedback() {
   const { user } = useContext(AuthContext);
@@ -14,7 +16,7 @@ export default function EmployeeFeedback() {
     // Set filteredEmployees to null to indicate loading state
     setFilteredEmployees(null);
 
-    fetch(`http://localhost:8000/employees/department/${user?.department}`)
+    fetch(`${BACKEND_URL}/employees/department/${user?.department}`)
       .then((res) => res.json())
       .then((data) => {
         setEmployees(data);

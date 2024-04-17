@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import CustomBarChart from "../../components/Barchart";
-const BACKEND_URL = "http://localhost:8000";
+import { backendUrl } from "../../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 export default function AnalyticsDetails() {
   const { id } = useParams();

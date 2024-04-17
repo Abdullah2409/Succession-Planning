@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
-
-const BACKEND_URL = "http://localhost:8000";
+import { backendUrl } from "../../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 export default function EmployeeFeedbackDetails() {
   const { id } = useParams();

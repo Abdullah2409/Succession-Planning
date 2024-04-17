@@ -1,10 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import AuthContext from "../context/authcontext";
 import Button from "../components/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { colorPalette } from "../utils/colors";
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development (Backend URL), will be replaced with production URL.
+import { backendUrl } from "../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 // This component is used to display the user's profile and provide the functionality to edit the profile.
 export default function Profile() {

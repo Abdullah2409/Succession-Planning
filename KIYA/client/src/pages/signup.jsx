@@ -16,7 +16,9 @@ import logo from "../assets/signup_logo.svg";
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@devsinc\.io$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development, will be replaced with production URL.
+import { backendUrl } from "../utils/backendurl";
+const BACKEND_URL = backendUrl;
+
 const REGISTER_URL = BACKEND_URL + "/users";
 
 export default function Signup() {

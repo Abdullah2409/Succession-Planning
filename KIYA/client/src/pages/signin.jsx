@@ -5,8 +5,8 @@ import logo from "../assets/signup_logo.svg";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../components/Button";
-
-const BACKEND_URL = "http://localhost:8000"; // This is temp for development, will be changed to production URL
+import { backendUrl } from "../utils/backendurl";
+const BACKEND_URL = backendUrl;
 const REGISTER_URL = BACKEND_URL + "/users/signin";
 
 export default function Signin() {
