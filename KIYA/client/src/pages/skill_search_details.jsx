@@ -26,12 +26,8 @@ export default function SkillSearchDetails() {
       .then((res) => res.json())
       .then((data) => setEmployees(data));
   }, [user]);
-<<<<<<< HEAD
-  const [tasks, setTasks] = useState(0);
-=======
   const [tasks, setTasks] = useState([])
   const [selectedTask, setSelectedTask] = useState()
->>>>>>> 146fb3a28f2a29448202d6feaba79121eec45983
   useEffect(() => {
     fetch(`${BACKEND_URL}/tasks`, {
       method: "GET",
@@ -40,11 +36,6 @@ export default function SkillSearchDetails() {
       },
     })
       .then((res) => res.json())
-<<<<<<< HEAD
-      .then((data) => setTasks(data));
-  }, [user]);
-  const pendingTasks = tasks;
-=======
       .then((data) => {
         setTasks(
           data.filter((task)=>{return task.employerid === user.id})
@@ -55,38 +46,20 @@ export default function SkillSearchDetails() {
       });
   }, []);
   
->>>>>>> 146fb3a28f2a29448202d6feaba79121eec45983
   useEffect(() => {
     // Filter employees based on their skills
     const filtered = employees.filter((employee) => {
       const employeeSkills = employee.skills;
-<<<<<<< HEAD
-      const commonSkills = employeeSkills.filter((skill) =>
-        skills.includes(skill)
-      );
-=======
       const commonSkills = employeeSkills.filter((skill) => skills.includes(skill.name)).map((skill) => skill.name);
->>>>>>> 146fb3a28f2a29448202d6feaba79121eec45983
       return commonSkills.length > 0; // Filter employees who have at least one common skill
     });
 
     // Prioritize employees based on the number of common skills
     const sortedEmployees = filtered.sort((a, b) => {
-<<<<<<< HEAD
-      const skillsA = a.skills;
-      const skillsB = b.skills;
-      const commonSkillsA = skillsA.filter((skill) =>
-        skills.includes(skill)
-      ).length;
-      const commonSkillsB = skillsB.filter((skill) =>
-        skills.includes(skill)
-      ).length;
-=======
       const skillsA = a.skills.map((skill) => skill.name);
       const skillsB = b.skills.map((skill) => skill.name);
       const commonSkillsA = skillsA.filter((skill) => skills.includes(skill)).length;
       const commonSkillsB = skillsB.filter((skill) => skills.includes(skill)).length;
->>>>>>> 146fb3a28f2a29448202d6feaba79121eec45983
       return commonSkillsB - commonSkillsA; // Sort in descending order of common skills count
     });
 
@@ -94,22 +67,6 @@ export default function SkillSearchDetails() {
   }, [employees, skills]);
 
   const employeeElements = filteredEmployees.map((employee, index) => (
-<<<<<<< HEAD
-    <div key={index} className="flex items-center justify-between mb-4">
-      <div
-        className="p-6 bg-yellow-300 shadow-lg rounded-lg flex flex-col items-center"
-        style={{
-          maxWidth: "500px",
-          minHeight: "60px",
-          width: "400px",
-          height: "60px",
-        }}
-      >
-        <div className="text-center px-4 flex flex-col justify-center h-full">
-          <h3 className="text-lg font-semibold mb-4">
-            {employee.employeeid} {employee.name} {employee.skills}
-          </h3>
-=======
     <div key={index} className="flex items-center justify-between mb-8"> {/* Increased mb-4 to mb-8 */}
       <div
         className="bg-yellow-300 shadow-lg rounded-lg flex items-left"
@@ -170,7 +127,6 @@ export default function SkillSearchDetails() {
           <div>
             {employeeElements}
           </div>
->>>>>>> 146fb3a28f2a29448202d6feaba79121eec45983
         </div>
       </div>
       <input
