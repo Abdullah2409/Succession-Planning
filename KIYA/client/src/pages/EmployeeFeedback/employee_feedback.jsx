@@ -1,26 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
-import { backendUrl } from "../../utils/backendurl";
-const BACKEND_URL = backendUrl;
+import CircularProgress from "@mui/material/CircularProgress";
+import TextField from "@mui/material/TextField";
 
 export default function EmployeeFeedback() {
   const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState(null); // Track selected employee
-  const [filterTerm, setFilterTerm] = useState(""); // State for filter term
-  const [filteredEmployees, setFilteredEmployees] = useState(null); // State for filtered employees
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [filterTerm, setFilterTerm] = useState("");
+  const [filteredEmployees, setFilteredEmployees] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set filteredEmployees to null to indicate loading state
     setFilteredEmployees(null);
 
     fetch(`${BACKEND_URL}/employees/department/${user?.department}`)
       .then((res) => res.json())
       .then((data) => {
         setEmployees(data);
-        // After fetching data, set filteredEmployees to initial state (empty array)
         setFilteredEmployees([]);
       });
   }, [user]);
@@ -35,7 +33,6 @@ export default function EmployeeFeedback() {
   };
 
   useEffect(() => {
-    // Update filteredEmployees whenever filterTerm or employees change
     if (employees.length > 0) {
       const filtered = employees.filter(
         (employee) =>
@@ -48,7 +45,7 @@ export default function EmployeeFeedback() {
 
   let employeeElements;
   if (filteredEmployees === null) {
-    employeeElements = <p className="text-center text-xl">Loading...</p>;
+    employeeElements = <CircularProgress />;
   } else if (filteredEmployees.length === 0) {
     employeeElements = (
       <p className="text-center text-xl">No employees found.</p>
@@ -71,8 +68,6 @@ export default function EmployeeFeedback() {
           alt={employee.name}
         />
         <div className="text-center px-4">
-          {" "}
-          {/* Add padding to the text container */}
           <h3 className="text-lg font-semibold">{employee.name}</h3>
           <p className="text-sm text-gray-600 mb-1">{employee.department}</p>
           <p className="text-sm text-gray-600 mb-4">{employee.designation}</p>
@@ -95,26 +90,27 @@ export default function EmployeeFeedback() {
   }
 
   return (
-    <div className="p-md max-w-screen-lg mx-auto py-8">
+    <div className="max-w-screen-lg mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6 mt-4">Employee Feedback</h1>
-      {/* Filter bar */}
-      <input
-        type="text"
-        placeholder="Filter by Employee Name or ID"
+      <TextField
+        label="Filter by Employee Name or ID"
         value={filterTerm}
         onChange={handleFilterChange}
-        className="w-full px-6 py-4 pl-10 border border-gray-800 rounded-lg focus:outline-none focus:border-blue-500 placeholder-text-color"
+        variant="outlined"
+        fullWidth
         style={{
-          backgroundColor: "#f4978f",
-          backgroundOpacity: "50%",
-          color: "#333333",
-          height: "60px",
-          paddingLeft: "20px",
           marginBottom: "20px",
+          backgroundColor: "#f4978f",
+          borderRadius: "5px",
+          padding: "15px 10px",
+        }}
+        InputProps={{
+          style: {
+            color: "#000000",
+          },
         }}
       />
-      {/* Employee list */}
-      <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {employeeElements}
       </div>
       {selectedEmployee && (
