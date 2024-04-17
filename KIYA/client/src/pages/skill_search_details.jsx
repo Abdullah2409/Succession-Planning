@@ -72,11 +72,11 @@ export default function SkillSearchDetails() {
   const employeeElements = filteredEmployees.map((employee, index) => (
     <div key={index} className="flex items-center justify-between mb-8"> {/* Increased mb-4 to mb-8 */}
       <div
-        className="bg-yellow-300 shadow-lg rounded-lg flex items-center"
-        style={{ minWidth: "800px", maxWidth: "600px", height: "80px", marginLeft: "20px" }} 
+        className="bg-yellow-300 shadow-lg rounded-lg flex items-left"
+        style={{ minWidth: "1200px", height: "40px", marginLeft: "20px" }} 
       >
-        <div className="text-center px-4 flex flex-col left h-full">
-          <h3 className="text-lg font-semibold mb-1" style={{ marginRight: "10px", display: "inline" }}>{employee.employeeid} - {employee.name} - {employee.skills.map((skill) => skill.name).join(", ")}</h3>
+        <div className="text-left px-4 flex flex-col left h-full">
+          <h3 className="text-lg font-semibold mb-1" style={{ marginRight: "10px", display: "inline" }}>{employee.employeeid} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {employee.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {employee.skills.map((skill) => skill.name).join(", ")}</h3>
         </div>
       </div>
       {/* <input
