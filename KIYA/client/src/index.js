@@ -19,6 +19,7 @@ import SkillSearch from "./pages/skill_search";
 import SkillSearchDetails from "./pages/skill_search_details";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not_found";
+import EmployeeFeedbackView from "./pages/feedback";
 
 // Context States
 import AuthState from "./context/authstate";
@@ -41,6 +42,10 @@ function App() {
               <Route
                 path="/advance-analytics/:id"
                 element={<AdvanceAnalytics />}
+              />
+              <Route
+                path="/feedback-employee/:id"
+                element={<EmployeeFeedbackView />}
               />
               <Route path="/employee-feedback" element={<EmployeeFeeback />} />
               <Route
