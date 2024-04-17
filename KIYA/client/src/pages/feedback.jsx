@@ -55,7 +55,7 @@ export default function EmployeeFeedbackView() {
               <h3 style={{ color: "black" }}>
                 Feedback from: {feedback.employerName}
               </h3>
-              <p style={{ color: "black" }}>Feedback: {feedback.content}</p>
+              <p style={{ color: "black" }}>Feedback: {feedback.feedback}</p>
               <p style={{ color: "black" }}>Rating: {feedback.rating}</p>
             </div>
           ))}
