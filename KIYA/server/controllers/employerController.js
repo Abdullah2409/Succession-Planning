@@ -3,7 +3,6 @@ import User from "../models/User.js";
 
 // @desc Get all employers
 // @route GET /employers
-// @access Private
 export const getEmployers = async (req, res) => {
   try {
     const employees = await Employer.find();
@@ -18,7 +17,6 @@ export const getEmployers = async (req, res) => {
 
 // @desc Create new employer
 // @route POST /employers
-// @access Private
 export const createEmployer = async (req, res) => {
   const employerData = req.body;
   if (!employerData) {
@@ -58,36 +56,18 @@ export const createEmployer = async (req, res) => {
   }
 };
 
-// @desc Update an employer
-// @route PATCH /employers/:id
-// @access Private
 export const updateEmployer = async (req, res) => {
-  let { id } = req.params;
-  const { name, address, phonenumber, city, country, profilepicture } =
-    req.body;
+  const updatedEmployer = req.body;
   try {
-    id = parseInt(id, 10);
-    const employer = await Employer.findOne({ employerid: id });
+    const employer = await Employer.findById(updatedEmployer._id);
     if (!employer) {
       return res.status(404).json({ message: "Employer not found" });
     }
 
-    employer.name = name || employer.name;
-    employer.address = address || employer.address;
-    employer.phonenumber = phonenumber || employer.phonenumber;
-    employer.city = city || employer.city;
-    employer.country = country || employer.country;
-    employer.profilepicture = profilepicture || employer.profilepicture;
-    await employer.save();
-
-    const user = await User.findOne({
-      id: employer.employerid,
-      role: "Employer",
+    await Employer.findByIdAndUpdate(updatedEmployer._id, updatedEmployer, {
+      new: true,
     });
-    user.name = name || user.name;
-    await user.save();
-
-    res.status(200).json(employer);
+    res.status(200).json(updatedEmployer);
   } catch (error) {
     res
       .status(500)
@@ -96,9 +76,46 @@ export const updateEmployer = async (req, res) => {
   }
 };
 
+// @desc Update an employer
+// @route PATCH /employers/:id
+// export const updateEmployer = async (req, res) => {
+//   let { id } = req.params;
+//   const { name, address, phonenumber, city, country, profilepicture } =
+//     req.body;
+
+//   try {
+//     id = parseInt(id, 10);
+//     const employer = await Employer.findOne({ employerid: id });
+//     if (!employer) {
+//       return res.status(404).json({ message: "Employer not found" });
+//     }
+
+//     employer.name = name || employer.name;
+//     employer.address = address || employer.address;
+//     employer.phonenumber = phonenumber || employer.phonenumber;
+//     employer.city = city || employer.city;
+//     employer.country = country || employer.country;
+//     employer.profilepicture = profilepicture || employer.profilepicture;
+//     await employer.save();
+
+//     const user = await User.findOne({
+//       id: employer.employerid,
+//       role: "Employer",
+//     });
+//     user.name = name || user.name;
+//     await user.save();
+
+//     res.status(200).json(employer);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Failed to update employer", error: error.message });
+//     console.error("Error updating employer:", error);
+//   }
+// };
+
 // @desc Delete an employer
 // @route DELETE /employers/:id
-// @access Private
 export const deleteEmployer = async (req, res) => {
   let { id } = req.params;
 
@@ -121,13 +138,11 @@ export const deleteEmployer = async (req, res) => {
 
 // @desc Get an employer
 // @route GET /employers/:id
-// @access Private
 export const getEmployer = async (req, res) => {
   let { id } = req.params;
-
   try {
     id = parseInt(id, 10);
-    const employer = await Employer.findById(id);
+    const employer = await Employer.findOne({ employerid: id });
     if (!employer) {
       return res.status(404).json({ message: "Employer not found" });
     }

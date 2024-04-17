@@ -38,7 +38,6 @@ export const getFeedbackByEmployer = async (req, res) => {
 export const getFeedbackByEmployee = async (req, res) => {
   // Accessing required fields from the request body
   const { id } = req.params;
-
   try {
     const feedback = await Feedback.find({ employeeid: id });
     res.status(200).json(feedback);

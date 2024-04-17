@@ -3,7 +3,6 @@ import User from "../models/User.js";
 
 // @desc Get all employees
 // @route GET /employees
-// @access Private
 export const getEmployees = async (req, res) => {
   try {
     const employees = await Employee.find();
@@ -18,7 +17,6 @@ export const getEmployees = async (req, res) => {
 
 // @desc Create new employee
 // @route POST /employees
-// @access Private
 export const createEmployee = async (req, res) => {
   const employeeData = req.body;
   if (!employeeData) {
@@ -63,37 +61,22 @@ export const createEmployee = async (req, res) => {
 
 // @desc Update an employee
 // @route PATCH /employees/:id
-// @access Private
 export const updateEmployee = async (req, res) => {
-  let { id } = req.params;
-  const { name, address, phonenumber, city, country, profilepicture, skills } =
-    req.body;
+  const updatedEmployee = req.body;
+  const employeeId = updatedEmployee._id;
 
   try {
-    id = parseInt(id, 10);
-    const employee = await Employee.findOne({ employeeid: id });
+    const updatedDocument = await Employee.findOneAndUpdate(
+      { _id: employeeId },
+      { $set: updatedEmployee },
+      { new: true }
+    );
 
-    if (!employee) {
+    if (!updatedDocument) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    employee.name = name || employee.name;
-    employee.address = address || employee.address;
-    employee.phonenumber = phonenumber || employee.phonenumber;
-    employee.city = city || employee.city;
-    employee.country = country || employee.country;
-    employee.profilepicture = profilepicture || employee.profilepicture;
-    employee.skills = skills || employee.skills;
-    await employee.save();
-
-    const user = await User.findOne({
-      id: employee.employeeid,
-      role: "Employee",
-    });
-    user.name = name || user.name;
-    await user.save();
-
-    res.status(200).json(employee);
+    res.status(200).json(updatedDocument);
   } catch (error) {
     res
       .status(500)
@@ -102,9 +85,69 @@ export const updateEmployee = async (req, res) => {
   }
 };
 
+// export const updateEmployee = async (req, res) => {
+//   const updatedEmployee = req.body;
+//   console.log("EmployeeiD: ", updatedEmployee._id, typeof updatedEmployee._id);
+
+//   try {
+//     const employee = await Employee.findById(updatedEmployee._id);
+//     if (!employee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     // Update the employee object
+//     employee.set(updatedEmployee);
+//     await employee.save();
+
+//     res.status(200).json(updatedEmployee);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Failed to update employee", error: error.message });
+//     console.error("Error updating employee:", error);
+//   }
+// };
+
+// export const updateEmployee = async (req, res) => {
+//   let { id } = req.params;
+//   const { name, address, phonenumber, city, country, profilepicture, skills } =
+//     req.body;
+
+//   try {
+//     id = parseInt(id, 10);
+//     const employee = await Employee.findOne({ employeeid: id });
+
+//     if (!employee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     employee.name = name || employee.name;
+//     employee.address = address || employee.address;
+//     employee.phonenumber = phonenumber || employee.phonenumber;
+//     employee.city = city || employee.city;
+//     employee.country = country || employee.country;
+//     employee.profilepicture = profilepicture || employee.profilepicture;
+//     employee.skills = skills || employee.skills;
+//     await employee.save();
+
+//     const user = await User.findOne({
+//       id: employee.employeeid,
+//       role: "Employee",
+//     });
+//     user.name = name || user.name;
+//     await user.save();
+
+//     res.status(200).json(employee);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Failed to update employee", error: error.message });
+//     console.error("Error updating employee:", error);
+//   }
+// };
+
 // @desc Delete an employee
 // @route DELETE /employees/:id
-// @access Private
 export const deleteEmployee = async (req, res) => {
   let { id } = req.params;
   try {
@@ -126,7 +169,6 @@ export const deleteEmployee = async (req, res) => {
 
 // @desc Get an employee
 // @route GET /employees/:id
-// @access Private
 export const getEmployee = async (req, res) => {
   let { id } = req.params;
   try {
@@ -148,11 +190,26 @@ export const getEmployee = async (req, res) => {
 
 // @desc Get employees by department
 // @route GET /employees/department/:department
-// @access Private
 export const getDepartmentEmployees = async (req, res) => {
   const { department } = req.params;
   try {
     const employees = await Employee.find({ department });
+    if (!employees) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+    res.status(200).json(employees);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch employees", error: error.message });
+    console.error("Error fetching employees:", error);
+  }
+};
+
+export const getTasksEmployees = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const employees = await Employee.find({ id });
     if (!employees) {
       return res.status(404).json({ message: "Department not found" });
     }

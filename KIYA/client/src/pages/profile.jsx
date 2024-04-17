@@ -3,6 +3,7 @@ import AuthContext from "../context/authcontext";
 import Button from "../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { colorPalette } from "../utils/colors";
 const BACKEND_URL = "http://localhost:8000"; // This is temp for development (Backend URL), will be replaced with production URL.
 
 // This component is used to display the user's profile and provide the functionality to edit the profile.
@@ -18,7 +19,7 @@ export default function Profile() {
   const [profilepicture, setProfilePicture] = useState(
     user?.profilepicture || ""
   );
-  const [skills, setSkills] = useState(user?.skills || []);
+  // const [skills, setSkills] = useState(user?.skills || []);
   const [editMode, setEditMode] = useState(false);
 
   // if the user cancel the changes, the form will be reset to the original values.
@@ -30,21 +31,9 @@ export default function Profile() {
       setCity(user?.city);
       setCountry(user?.country || "");
       setProfilePicture(user?.profilepicture);
-      setSkills(user?.skills || []);
+      // setSkills(user?.skills || []);
     }
   }, [editMode]);
-
-  function randomHexColor() {
-    const colors = [
-      "#61dafb", // Light blue (React)
-      "#f0db4f", // Yellow (JavaScript)
-      "#3eaf7c", // Green (Node.js)
-      "#563d7c", // Purple (Express)
-    ];
-
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-  }
 
   /* This function will trigger the file input click 
   and the user will be able to select the profile picture from the file system. 
@@ -86,7 +75,7 @@ export default function Profile() {
         city,
         country,
         profilepicture,
-        skills,
+        // skills,
       }),
     };
 
@@ -149,7 +138,7 @@ export default function Profile() {
 
       <form
         onSubmit={handleSubmit}
-        className="lg:self-start grid gap-5 max-w-fit md:max-w-none md:basis-[30%]"
+        className="min-w-[60%] max-w-screen-md lg:self-start grid gap-5 md:max-w-none md:basis-[30%]"
       >
         <div className="relative">
           <label
@@ -258,7 +247,7 @@ export default function Profile() {
           />
         </div>
 
-        {/* The skills field will only be rendered when the user is an employee */}
+        {/* The skills field will only be rendered when the user is an employee
         {user?.role === "Employee" && (
           <div className="relative">
             <div>
@@ -298,9 +287,12 @@ export default function Profile() {
                 <span
                   key={index}
                   style={{
-                    backgroundColor: randomHexColor(),
+                    backgroundColor:
+                      colorPalette[
+                        Math.floor(Math.random() * colorPalette.length)
+                      ],
                   }}
-                  className="relative text-gray-600 px-md py-sm mx-1 rounded-lg"
+                  className="relative text-black px-md py-sm mx-1 rounded-lg"
                 >
                   {skill}
                   <FontAwesomeIcon
@@ -314,7 +306,7 @@ export default function Profile() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {editMode ? (
           <div className="flex gap-3 items-center justify-center">

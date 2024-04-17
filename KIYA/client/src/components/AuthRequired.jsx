@@ -15,7 +15,9 @@ export default function AuthRequired() {
       {isAuthenticated ? (
         <>
           <Navbar />
-          <Outlet />
+          <div className="w-full max-w-screen-xl">
+            <Outlet />
+          </div>
         </>
       ) : (
         <Navigate to="/signin" />
