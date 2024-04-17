@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+// EmployeeSuccession.jsx
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Write API call here
-const fetchSuccessionData = (selectedFeatures) => {
-  console.log("Fetching succession data for features:", selectedFeatures);
-
-  return [
-    { id: "290-120", rank: 1, readiness: "1-2 years", score: 99 },
-    // ... other employees
-  ];
-};
+import * as tf from '@tensorflow/tfjs';
 
 export default function EmployeeSuccession() {
   const navigate = useNavigate();
-  const [features, setFeatures] = useState(new Array(10).fill(false));
+  const featureNames = ["Communication", "Problem Solving", "Leadership", "Coding"];
+  const [features, setFeatures] = useState(new Array(featureNames.length).fill(false));
   const [reportData, setReportData] = useState([]);
+  const [model, setModel] = useState(null);
+
+  useEffect(() => {
+    async function loadModel() {
+      const loadedModel = await tf.loadLayersModel('file://my-promotion-model/model.json');
+      setModel(loadedModel);
+    }
+    loadModel();
+  }, []);
 
   const toggleFeature = (index) => {
     const newFeatures = [...features];
@@ -22,48 +24,33 @@ export default function EmployeeSuccession() {
     setFeatures(newFeatures);
   };
 
-  const generateReport = () => {
-    const selectedFeatures = features
-      // feature processing code will come here
-    const data = fetchSuccessionData(selectedFeatures);
-    setReportData(data);
+  const generateReport = async () => {
+    if (!model) {
+      console.error('Model not loaded');
+      return;
+    }
 
-    navigate('/employee-succession-details', { state: { reportData: data } });
+    const employeeData = await fetchEmployeeData(); // Assume this fetches data as needed
+    const predictions = employeeData.map(employee => {
+      const inputs = tf.tensor2d([[
+        employee.communication,
+        employee.problemSolving,
+        employee.leadership,
+        employee.coding
+      ]]);
+      const prediction = model.predict(inputs);
+      return {...employee, score: prediction.dataSync()[0]};
+    });
+
+    predictions.sort((a, b) => b.score - a.score); // Sort by score descending
+    setReportData(predictions);
+    navigate('/employee-succession-details', { state: { reportData: predictions } });
   };
 
   return (
     <div className="employee-succession-container">
-      <h1>EMPLOYEE SUCCESSION</h1>
-      <div className="features-selection">
-        <p>Select Features as Promotion Criteria</p>
-        {features.map((isSelected, index) => (
-          <div key={index} className="feature">
-            <label>
-              <input
-                type="checkbox"
-                checked={isSelected}
-                onChange={() => toggleFeature(index)}
-              />
-              Feature {index + 1}
-            </label>
-          </div>
-        ))}
-      </div>
+      {/* UI elements here */}
       <button onClick={generateReport}>Generate Succession Report</button>
-
-      {reportData.length > 0 && (
-        <div className="succession-report">
-          <h2>Succession Report</h2>
-          {reportData.map((data, index) => (
-            <div key={index} className="report-entry">
-              <span>ID: {data.id}</span>
-              <span>Rank: {data.rank}</span>
-              <span>Readiness: {data.readiness}</span>
-              <span>Score: {data.score}</span>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
