@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthContext from "../../context/authcontext";
 import axios from "axios";
 
@@ -8,32 +8,39 @@ const BACKEND_URL = "http://localhost:8000";
 export default function Analytics() {
   const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [applicants, setApplicants] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    getApplicants();
-  }, []);
+    setIsLoading(true); // Set loading to true while fetching data
+    const getApplicants = async () => {
+      try {
+        const url = `${BACKEND_URL}/employees/department/${user?.department}`;
+        const response = await axios.get(url);
+        setEmployees(response.data);
+        setFilteredEmployees(response.data); // Initialize filtered list
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+      } finally {
+        setIsLoading(false); // Set loading to false after fetching data
+      }
+    };
 
-  const getApplicants = async () => {
-    try {
-      const url = `${BACKEND_URL}/employees/department/${user?.department}`;
-      const response = await axios.get(url);
-      setEmployees(response.data);
-    } catch (error) {
-      console.error("Error fetching employees:", error);
-    }
-  };
+    getApplicants();
+  }, [user?.department]); // Adding dependency on user's department to re-fetch if it changes
 
   const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const searchEmployee = async () => {
-    navigate(`/analytics/${searchQuery}`); // For simplicity in this example
+    const value = event.target.value;
+    setSearchQuery(value);
+    if (value) {
+      const filtered = employees.filter((employee) =>
+        employee.employeeid.toString().includes(value)
+      );
+      setFilteredEmployees(filtered);
+    } else {
+      setFilteredEmployees(employees);
+    }
   };
 
   const searchContainerStyle = {
@@ -52,15 +59,8 @@ export default function Analytics() {
     padding: "10px 20px",
     border: "none",
     outline: "none",
-    color: "#000000", // Change the color to black
+    color: "#000000",
     backgroundColor: "transparent",
-  };
-
-  const buttonStyle = {
-    padding: "10px 50px", // Increase the padding to make the button longer horizontally
-    border: "2px solid #000000",
-    cursor: "pointer",
-    borderRadius: "15px", // Increase the border radius to make the edges rounder
   };
 
   const sidebarStyle = {
@@ -100,12 +100,11 @@ export default function Analytics() {
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <button onClick={searchEmployee} style={buttonStyle}>
-            Search
-          </button>
         </div>
-        <div>
-          {employees.map((employee) => (
+        {isLoading ? (
+          <p>Loading list...</p>
+        ) : filteredEmployees.length > 0 ? (
+          filteredEmployees.map((employee) => (
             <div key={employee.employeeid} style={employeeListStyle}>
               <p>Name: {employee.name}</p>
               <p>ID: {employee.employeeid}</p>
@@ -117,21 +116,9 @@ export default function Analytics() {
                 Go to Analytics
               </Link>
             </div>
-          ))}
-        </div>
-        {selectedEmployee && (
-          <div style={employeeListStyle}>
-            <h2>Selected Employee</h2>
-            <p>Name: {selectedEmployee.name}</p>
-            <p>ID: {selectedEmployee.employeeid}</p>
-            <p>Department: {selectedEmployee.department}</p>
-            <Link
-              to={`/analytics/${selectedEmployee.employeeid}`}
-              style={{ color: "#3182CE" }}
-            >
-              Go to Analytics
-            </Link>
-          </div>
+          ))
+        ) : (
+          <p>No employee with this ID available.</p>
         )}
       </main>
     </div>
