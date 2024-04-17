@@ -202,15 +202,18 @@ const AnalyticsDetails = ({ user }) => {
 
   const createBarCharts = () => {
     if (!employee || employee?.skills.length === 0) return "No data available";
-    return employee.skills.map((skill, index) => {
+
+    const subSkills = employee.skills.slice(0, 2);
+
+    return subSkills.map((skill, index) => {
       const requiredSkill = skillsData.find((data) => data.name === skill.name);
       return (
         <CustomBarChart
           key={index}
           name={skill.name}
           current={skill.points}
-          intermediate={requiredSkill.levels.intermediate}
-          advance={requiredSkill.levels.advance}
+          intermediate={requiredSkill?.levels.intermediate}
+          advance={requiredSkill?.levels.advance}
           width={150}
         />
       );
@@ -250,7 +253,7 @@ const AnalyticsDetails = ({ user }) => {
   }, []);
 
   return (
-    <div className="bg-[#F7F7F7] p-md col-span-4 grid grid-rows-1 self-stretch rounded-lg border border-gray-300">
+    <div className="bg-[#F7F7F7] p-md col-span-2 grid grid-rows-1 self-stretch rounded-lg border border-gray-300">
       <div className="employee-details">
         <div className="flex justify-between items-center mb-5">
           <h2 className="font-semibold">Employee Development Statistics</h2>

@@ -13,6 +13,7 @@ import EmployeeSuccession from "./pages/EmployeeSuccession/employee_succession";
 import EmployeeSuccessionDetails from "./pages/EmployeeSuccession/employee-succession-details";
 import EmployeeFeeback from "./pages/EmployeeFeedback/employee_feedback";
 import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_details";
+import AdvanceAnalytics from "./pages/advance_analytics";
 import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
 import SkillSearchDetails from "./pages/skill_search_details";
@@ -37,6 +38,10 @@ function App() {
               <Route path="/dashboard/task/:id" element={<SpecificTask />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/analytics/:id" element={<AnalyticsDetails />} />
+              <Route
+                path="/advance-analytics/:id"
+                element={<AdvanceAnalytics />}
+              />
               <Route path="/employee-feedback" element={<EmployeeFeeback />} />
               <Route
                 path="/employee-succession"
@@ -50,10 +55,7 @@ function App() {
                 path="/employee-feedback/:id"
                 element={<EmployeeFeebackDetails />}
               />
-              <Route
-                path="/skill-search"
-                element={<SkillSearch />}
-              />
+              <Route path="/skill-search" element={<SkillSearch />} />
               <Route
                 path="/skill-search/:id"
                 element={<SkillSearchDetails />}

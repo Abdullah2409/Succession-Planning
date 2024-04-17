@@ -16,7 +16,7 @@ const CustomBarChart = ({ current, intermediate, advance, name, width }) => {
       name: name,
       Current: Number(current),
       Intermediate: Number(intermediate),
-      Advance: Number(advance),
+      Advance: Number(advance) - Number(intermediate),
     },
   ];
 
@@ -27,8 +27,8 @@ const CustomBarChart = ({ current, intermediate, advance, name, width }) => {
         <YAxis />
         <Tooltip />
         <Legend wrapperStyle={{ fontSize: "12px" }} />
-        <Bar dataKey="Advance" fill="#8884d8" stackId="a" />
         <Bar dataKey="Intermediate" fill="#82ca9d" stackId="a" />
+        <Bar dataKey="Advance" fill="#8884d8" stackId="a" />
         <Bar
           dataKey="Current"
           fill={colorPalette[Math.floor(Math.random() * colorPalette.length)]}

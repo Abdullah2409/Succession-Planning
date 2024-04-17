@@ -7,6 +7,7 @@ import {
   FaRegComments,
   FaWpforms,
   FaCog,
+  FaChartLine,
   FaQuestionCircle,
   FaUser,
 } from "react-icons/fa";
@@ -15,7 +16,8 @@ import AuthContext from "../context/authcontext";
 
 export default function Navbar() {
   const location = useLocation();
-  const { setIsAuthenticated, setUser } = useContext(AuthContext);
+  const { setIsAuthenticated, user, setUser } = useContext(AuthContext);
+  const userRole = user?.role.toLowerCase();
 
   const logoutUser = () => {
     setIsAuthenticated(false);
@@ -33,52 +35,65 @@ export default function Navbar() {
         >
           <FaTachometerAlt className="mr-4" /> Dashboard
         </Link>
-        <Link
-          to="/analytics"
-          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
-            location.pathname === "/analytics" ? "bg-white bg-opacity-10" : ""
-          }`}
-        >
-          <FaChartBar className="mr-4" /> Analytics
-        </Link>
-        <Link
-          to="/employee-succession"
-          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
-            location.pathname === "/employee-succession"
-              ? "bg-white bg-opacity-10"
-              : ""
-          }`}
-        >
-          <FaRegListAlt className="mr-4" /> Employee Succession
-        </Link>
-        <Link
-          to="/employee-feedback"
-          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
-            location.pathname === "/employee-feedback"
-              ? "bg-white bg-opacity-10"
-              : ""
-          }`}
-        >
-          <FaRegComments className="mr-4" /> Employee Feedback
-        </Link>
-        <Link
-          to="/skill-search"
-          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
-            location.pathname === "/skill-search"
-              ? "bg-white bg-opacity-10"
-              : ""
-          }`}
-        >
-          <FaWpforms className="mr-4" /> Skill Search
-        </Link>
-        <Link
-          to="/help"
-          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
-            location.pathname === "/help" ? "bg-white bg-opacity-10" : ""
-          }`}
-        >
-          <FaQuestionCircle className="mr-4" /> Help
-        </Link>
+        {userRole === "employer" && (
+          <Link
+            to="/analytics"
+            className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+              location.pathname === "/analytics" ? "bg-white bg-opacity-10" : ""
+            }`}
+          >
+            <FaChartBar className="mr-4" /> Analytics
+          </Link>
+        )}
+        {userRole === "employee" && (
+          <Link
+            to={`/advance-analytics/${user.employeeid}`}
+            className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+              location.pathname === "/advance-analytics"
+                ? "bg-white bg-opacity-10"
+                : ""
+            }`}
+          >
+            <FaChartLine className="mr-4" /> Advance Analytics
+          </Link>
+        )}
+
+        {userRole === "employer" && (
+          <Link
+            to="/employee-succession"
+            className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+              location.pathname === "/employee-succession"
+                ? "bg-white bg-opacity-10"
+                : ""
+            }`}
+          >
+            <FaRegListAlt className="mr-4" /> Employee Succession
+          </Link>
+        )}
+        {userRole === "employer" && (
+          <Link
+            to="/employee-feedback"
+            className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+              location.pathname === "/employee-feedback"
+                ? "bg-white bg-opacity-10"
+                : ""
+            }`}
+          >
+            <FaRegComments className="mr-4" /> Employee Feedback
+          </Link>
+        )}
+        {userRole === "employer" && (
+          <Link
+            to="/skill-search"
+            className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+              location.pathname === "/skill-search"
+                ? "bg-white bg-opacity-10"
+                : ""
+            }`}
+          >
+            <FaWpforms className="mr-4" /> Skill Search
+          </Link>
+        )}
 
         <div className="flex justify-between">
           <Link
