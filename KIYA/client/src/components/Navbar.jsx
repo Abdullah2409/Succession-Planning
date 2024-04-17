@@ -58,6 +58,20 @@ export default function Navbar() {
           </Link>
         )}
 
+        {userRole === "employee" && (
+          <Link
+            to={`/feedback-employee/${user.employeeid}`}
+            className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+              location.pathname === "/feedback-employee"
+                ? "bg-white bg-opacity-10"
+                : ""
+            }`}
+          >
+            <FaRegComments className="mr-4" />
+            Feedback
+          </Link>
+        )}
+
         {userRole === "employer" && (
           <Link
             to="/employee-succession"
