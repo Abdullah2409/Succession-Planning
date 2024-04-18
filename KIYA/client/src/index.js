@@ -14,8 +14,8 @@ import EmployeeSuccessionDetails from "./pages/EmployeeSuccession/employee-succe
 import EmployeeFeeback from "./pages/EmployeeFeedback/employee_feedback";
 import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_details";
 import AdvanceAnalytics from "./pages/advance_analytics";
-// import SkillSearch from "./pages/skill_search";
-// import SkillSearchDetails from "./pages/skill_search_details";
+import SkillSearch from "./pages/skill_search";
+import SkillSearchDetails from "./pages/skill_search_details";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not_found";
 import EmployeeFeedbackView from "./pages/feedback";
@@ -59,11 +59,11 @@ function App() {
                 path="/employee-feedback/:id"
                 element={<EmployeeFeebackDetails />}
               />
-              {/* <Route path="/skill-search" element={<SkillSearch />} />
+              <Route path="/skill-search" element={<SkillSearch />} />
               <Route
                 path="/skill-search/:id"
                 element={<SkillSearchDetails />}
-              /> */}
+              />
               <Route path="/profile" element={<Profile />} />
             </Route>
 

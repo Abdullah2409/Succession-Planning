@@ -38,6 +38,7 @@ export default function SkillSearch() {
   });
 
   const toggleCheckBox = (id) => {
+    
     console.log("start");
     var updatedSelectedSkills = [...selectedSkills];
     const newCheckBox = [...checkbox];
@@ -49,7 +50,9 @@ export default function SkillSearch() {
       );
       setSelectedSkills(updatedSelectedSkills);
     } else {
-      if (updatedSelectedSkills.length === 3) {
+      if (updatedSelectedSkills.length >= 3) {
+        newCheckBox[id] = !newCheckBox[id];
+        setCheckBox(newCheckBox);
         document.getElementById("error-message").innerText =
           "Maximum 3 skills can be selected.";
         return;
@@ -58,10 +61,7 @@ export default function SkillSearch() {
       }
       setSelectedSkills(updatedSelectedSkills);
     }
-    if (updatedSelectedSkills.length > 3) {
-      document.getElementById("error-message").innerText =
-        "Maximum 3 skills can be selected.";
-    } else {
+    if (updatedSelectedSkills.length <= 3) {
       document.getElementById("error-message").innerText = "";
     }
   };

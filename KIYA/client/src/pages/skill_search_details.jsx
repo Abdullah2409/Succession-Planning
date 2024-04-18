@@ -72,8 +72,10 @@ export default function SkillSearchDetails() {
         className="bg-yellow-300 shadow-lg rounded-lg flex items-left"
         style={{ minWidth: "1200px", height: "40px", marginLeft: "20px" }} 
       >
-        <div className="text-left px-4 flex flex-col left h-full">
-          <h3 className="text-lg font-semibold mb-1" style={{ marginRight: "10px", display: "inline" }}>{employee.employeeid} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {employee.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {employee.skills.map((skill) => skill.name).join(", ")}</h3>
+        <div style={{ display: "flex" }}>
+          <h1 className="text-lg font-semibold mb-1" style={{ display: "inline" }}>{employee.employeeid}</h1>
+          <h1 className="text-lg font-semibold mb-1" style={{ display: "inline" ,paddingLeft:"70px"}}>{employee.name}</h1> 
+          <h1 className="text-lg font-semibold mb-1" style={{display: "inline",paddingLeft:"70px"}}>{employee.skills.map((skill) => skill.name).join(", ")}</h1>
         </div>
       </div>
       {/* <input
@@ -97,25 +99,17 @@ export default function SkillSearchDetails() {
     fontWeight: "bold",
   };
 
-  return <div>
+  return (<div>
     <header style={headerStyle}>
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2px" }}>
-      <header style={{ flex: "0.1" }}>ID</header>
-      <header style={{ flex: "0.2" }}>Name</header>
+      <header style={{ flex: "0.1" ,marginLeft:"2px"}}>ID</header>
+      <header style={{ flex: "0.2",marginLeft:"10px" }}>Name</header>
       <header style={{ flex: "1" }}>Skills</header>
     </div>
   </header>
 
           <div>
-            {/* <p>pending tasks: </p>
-            <select onChange={(task)=>{setSelectedTask(task.name)}}>
-              <option value="" disabled selected>Select</option>
-              {tasks.map((task) => (
-                <option key={task._id} value={task.title}>
-                  {task.title}
-                </option>
-              ))}
-            </select>
+            {/*
             <button
             // onClick={() => handleTaskAssignment()}
             className="bg-blue-500 text-black rounded hover:bg-blue-600 focus:outline-none"
@@ -127,26 +121,7 @@ export default function SkillSearchDetails() {
           <div>
             {employeeElements}
           </div>
-        </div>
-      </div>
-      <input
-        type="radio"
-        id={`employee-${index}`}
-        name="selectedEmployee"
-        className="mr-2"
-        onChange={() => handleEmployeeSelection(employee)}
-      />
-      <p>chosen employee is {chosenEmployee?.name}</p>
-    </div>
-  ));
-  return (
-    <div>
-      <p>ID Name Skills</p>
-      <div>
-        <p>pending tasks: </p>
-        {tasks}
-      </div>
-      <div>{employeeElements}</div>
     </div>
   );
+
 }
