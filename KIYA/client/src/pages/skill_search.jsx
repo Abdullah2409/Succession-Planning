@@ -73,8 +73,8 @@ export default function SkillSearch() {
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "flex-end",
-          marginTop: "30px",
-          marginRight: "300px",
+          marginTop: "10px",
+          marginRight: "250px",
         }}
       >
         <div>
@@ -90,6 +90,18 @@ export default function SkillSearch() {
           >
             Search for employee
           </button>
+          <img
+        src={search}
+        alt="search logo"
+        style={{
+          marginTop: "10px",
+          marginRight: "200px",
+          width: "400px",
+          height: "400px",
+          position: "absolute",
+          right: "0",
+        }}
+      />
         </div>
       </div>
 
@@ -122,18 +134,7 @@ export default function SkillSearch() {
         </div>
       ))}
       <br />
-      <img
-        src={search}
-        alt="search logo"
-        style={{
-          marginTop: "10px",
-          marginRight: "20px",
-          width: "400px",
-          height: "400px",
-          position: "relative",
-          right: "0",
-        }}
-      />
+      
     </div>
   );
 }
