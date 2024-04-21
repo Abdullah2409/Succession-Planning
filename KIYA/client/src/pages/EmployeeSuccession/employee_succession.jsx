@@ -53,23 +53,27 @@ export default function EmployeeSuccession() {
     setFeatures(newFeatures);
   };
 
-const modelPrediction = (employee) => {
-  let totalPoints = 0;
-  let selectedSkillsCount = 0;
+  const normalizeString = (str) => str.toLowerCase().replace(/[^a-z0-9]/gi, '');
 
-  features.forEach((isSelected, index) => {
-    if (isSelected) {
-      const skillName = featureNames[index].toLowerCase();
-      const skill = employee.skills.find(skill => skill.name.toLowerCase() === skillName);
-      if (skill) {
-        totalPoints += skill.points;
-        selectedSkillsCount++;
+  const modelPrediction = (employee) => {
+    let totalPoints = 0;
+    let selectedSkillsCount = 0;
+  
+    features.forEach((isSelected, index) => {
+      if (isSelected) {
+        const featureNameNormalized = normalizeString(featureNames[index]);
+        const skill = employee.skills.find(skill => normalizeString(skill.name) === featureNameNormalized);
+        if (skill) {
+          totalPoints += skill.points;
+          selectedSkillsCount++;
+        }
       }
-    }
-  });
-
-  return selectedSkillsCount > 0 ? totalPoints / selectedSkillsCount : 0;
-};
+    });
+  
+    return selectedSkillsCount === 1 ? totalPoints : selectedSkillsCount > 0 ? totalPoints / selectedSkillsCount : 0;
+  };
+  
+  
 
 
 
