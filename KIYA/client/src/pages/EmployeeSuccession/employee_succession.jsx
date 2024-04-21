@@ -46,7 +46,6 @@ export default function EmployeeSuccession() {
       fetchEmployees();
     }
   }, [user]);
-
   // Toggle selected features
   const toggleFeature = (index) => {
     const newFeatures = [...features];
@@ -54,51 +53,53 @@ export default function EmployeeSuccession() {
     setFeatures(newFeatures);
   };
 
-// Calculate average score based on selected features
 const modelPrediction = (employee) => {
-  let selectedSkillCount = 0; // Track the number of skills actually considered
-  const scores = featureNames.map((featureName, index) => {
-    const skill = employee.skills.find(skill => skill.name.toLowerCase() === featureName.toLowerCase());
-    // If the feature is selected, consider its score
-    if (features[index]) {
-      selectedSkillCount++;
-      return skill ? skill.points : 0;
-    } else {
-      // If the feature is not selected, don't contribute to the score
-      return 0;
+  let totalPoints = 0;
+  let selectedSkillsCount = 0;
+
+  features.forEach((isSelected, index) => {
+    if (isSelected) {
+      const skillName = featureNames[index].toLowerCase();
+      const skill = employee.skills.find(skill => skill.name.toLowerCase() === skillName);
+      if (skill) {
+        totalPoints += skill.points;
+        selectedSkillsCount++;
+      }
     }
   });
 
-  // Calculate the total score by summing up the selected skills points
-  const totalScore = scores.reduce((acc, score) => acc + score, 0);
-  // Return the average score based on the number of skills actually selected
-  return selectedSkillCount > 0 ? totalScore / selectedSkillCount : 0;
+  return selectedSkillsCount > 0 ? totalPoints / selectedSkillsCount : 0;
 };
+
 
 
 
   // Generate a report
-const generateReport = () => {
-  // First, compute scores and include additional data
-  const employeeDataWithAverages = employees.map((employee, index) => ({
-    ...employee,
-    score: modelPrediction(employee), // Calculating the score
-    rank: index + 1,  // Rank based on the index in the original list, assuming no sorting yet
-    readiness: "Assessed"  // Placeholder for readiness status
-  }));
-
-  // Then sort by score in descending order
-  employeeDataWithAverages.sort((a, b) => b.score - a.score);
-
-  // Assign rank based on the new sorted order
-  const sortedByRank = employeeDataWithAverages.map((employee, index) => ({
-    ...employee,
-    rank: index + 1  // Update rank after sorting by score
-  }));
-
-  setReportData(sortedByRank);
-  navigate('/employee-succession-details', { state: { reportData: sortedByRank } });
-};
+  const generateReport = () => {
+    // First, compute scores and include additional data
+    
+    const employeeDataWithAverages = employees.map((employee, index) => ({
+      ...employee,
+      employeeid: employee.employeeid, // Add the employee id
+      score: modelPrediction(employee), // Calculating the score
+      rank: index + 1, // Rank based on the index in the original list, assuming no sorting yet
+      readiness: "Assessed" // Placeholder for readiness status
+    }));
+    
+  
+    // Then sort by score in descending order
+    employeeDataWithAverages.sort((a, b) => b.score - a.score);
+  
+    // Assign rank based on the new sorted order
+    const sortedByRank = employeeDataWithAverages.map((employee, index) => ({
+      ...employee,
+      rank: index + 1 // Update rank after sorting by score
+    }));
+  
+    setReportData(sortedByRank);
+    navigate('/employee-succession-details', { state: { reportData: sortedByRank } });
+  };
+  
 
   return (
     <div className="flex min-h-screen">
