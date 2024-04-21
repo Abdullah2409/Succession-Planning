@@ -9,7 +9,8 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const BACKEND_URL = "http://localhost:8000";
+import { backendUrl } from "../../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 export default function Analytics() {
   const { user } = useContext(AuthContext);

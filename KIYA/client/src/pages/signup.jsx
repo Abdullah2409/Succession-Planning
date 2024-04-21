@@ -11,12 +11,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AuthContext from "../context/authcontext";
 import Button from "../components/Button";
 import logo from "../assets/signup_logo.svg";
+import { backendUrl } from "../utils/backendurl";
 
 // Regular expressions for email and password validation
 const EMAIL_REGEX = /^[A-Za-z0-9._%+-]+@devsinc\.io$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-import { backendUrl } from "../utils/backendurl";
 const BACKEND_URL = backendUrl;
 
 const REGISTER_URL = BACKEND_URL + "/users";

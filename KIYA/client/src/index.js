@@ -14,7 +14,6 @@ import EmployeeSuccessionDetails from "./pages/EmployeeSuccession/employee-succe
 import EmployeeFeeback from "./pages/EmployeeFeedback/employee_feedback";
 import EmployeeFeebackDetails from "./pages/EmployeeFeedback/employee_feedback_details";
 import AdvanceAnalytics from "./pages/advance_analytics";
-import Settings from "./pages/settings";
 import SkillSearch from "./pages/skill_search";
 import SkillSearchDetails from "./pages/skill_search_details";
 import Profile from "./pages/profile";
