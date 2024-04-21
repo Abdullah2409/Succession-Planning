@@ -81,7 +81,12 @@ export default function EmployeeSuccession() {
   // Generate a report
   const generateReport = () => {
     // First, compute scores and include additional data
+    const isAnyFeatureSelected = features.some(isSelected => isSelected);
     
+    if (!isAnyFeatureSelected) {
+      alert('Please select at least one feature to generate the report.');
+      return;
+    }
     const employeeDataWithAverages = employees.map((employee, index) => ({
       ...employee,
       employeeid: employee.employeeid, // Add the employee id
@@ -131,7 +136,8 @@ export default function EmployeeSuccession() {
 
         <button
           onClick={generateReport}
-          className="bg-teal-500 text-white font-bold py-2 px-4 rounded hover:bg-teal-700"
+          disabled={!features.some(isSelected => isSelected)}
+          className={`bg-teal-500 text-white font-bold py-2 px-4 rounded hover:bg-teal-700 ${!features.some(isSelected => isSelected) ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
             Generate Succession Report
         </button>
