@@ -23,7 +23,7 @@ export default function EmployeeSuccession() {
         const modelUrl = process.env.PUBLIC_URL + '/my-promotion-model/model.json';
         const loadedModel = await tf.loadLayersModel(modelUrl);
 
-        setModel(loadedModel);
+        setModel(loadedModel); 
         setLoadingModel(false); // Model loaded successfully
       } catch (error) {
         console.error('Error loading the model:', error);
