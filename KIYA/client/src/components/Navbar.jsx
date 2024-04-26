@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`min-w-56 max-w-56 min-h-[100%] p-lg text-[#fff] text-opacity-80 tracking-normal font-light text-[13px] flex bg-primary flex-col items-center`}
+      className={`min-w-56 max-w-56 min-h-screen p-lg text-[#fff] text-opacity-80 tracking-normal font-light text-[13px] flex bg-primary flex-col items-center`}
     >
       <div className="flex flex-col w-full">
         <Link
