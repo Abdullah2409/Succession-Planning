@@ -23,7 +23,8 @@ const taskSchema = new mongoose.Schema({
   },
   employeeid: {
     type: Number,
-    required: true,
+    default: -1,
+    // required: true,
   },
   skills: {
     type: [

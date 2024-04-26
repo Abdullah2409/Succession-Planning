@@ -1,33 +1,41 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../context/authcontext";
-
 import { backendUrl } from "../utils/backendurl";
+
 const BACKEND_URL = backendUrl;
 
 export default function SkillSearchDetails() {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
+  const [selectedTaskId, setSelectedTaskId] = useState("");
   const skills = id.split(",");
-  skills.map((skill, id) => {
+
+  // Replace skill "C" with "C#"
+  skills.forEach((skill, index) => {
     if (skill === "C") {
-      skills[id] = "C#";
+      skills[index] = "C#";
     }
   });
+
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [chosenEmployee, setChosenEmployee] = useState();
+  const [successMessage, setSuccessMessage] = useState("");
+
 
   const handleEmployeeSelection = (employee) => {
     setChosenEmployee(employee);
   };
+
   useEffect(() => {
     fetch(`${BACKEND_URL}/employees/department/${user?.department}`)
       .then((res) => res.json())
       .then((data) => setEmployees(data));
   }, [user]);
-  const [tasks, setTasks] = useState([])
-  const [selectedTask, setSelectedTask] = useState()
+
+  const [tasks, setTasks] = useState([]);
+
   useEffect(() => {
     fetch(`${BACKEND_URL}/tasks`, {
       method: "GET",
@@ -38,14 +46,18 @@ export default function SkillSearchDetails() {
       .then((res) => res.json())
       .then((data) => {
         setTasks(
-          data.filter((task)=>{return task.employerid === user.id})
+          data.filter(
+            (task) =>
+              !task.isCompleted 
+          )
         );
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  
+
+
   useEffect(() => {
     // Filter employees based on their skills
     const filtered = employees.filter((employee) => {
@@ -66,30 +78,56 @@ export default function SkillSearchDetails() {
     setFilteredEmployees(sortedEmployees);
   }, [employees, skills]);
 
+  const handleTaskSelection = (taskId) => {
+    setSelectedTaskId(taskId);
+  };
+
   const employeeElements = filteredEmployees.map((employee, index) => (
-    <div key={index} className="flex items-center justify-between mb-8"> {/* Increased mb-4 to mb-8 */}
-      <div
-        className="bg-yellow-300 shadow-lg rounded-lg flex items-left"
-        style={{ minWidth: "1200px", height: "40px", marginLeft: "20px" }} 
-      >
-        <div style={{ display: "flex" }}>
-          <h1 className="text-lg font-semibold mb-1" style={{ display: "inline" }}>{employee.employeeid}</h1>
-          <h1 className="text-lg font-semibold mb-1" style={{ display: "inline" ,paddingLeft:"70px"}}>{employee.name}</h1> 
-          <h1 className="text-lg font-semibold mb-1" style={{display: "inline",paddingLeft:"70px"}}>{employee.skills.map((skill) => skill.name).join(", ")}</h1>
+    <div key={index} className="flex items-center justify-between mb-8">
+      <div className="bg-yellow-300 shadow-lg rounded-lg flex items-center" style={{ width: "100%", minHeight: "40px", padding: "0 20px" , marginLeft : "20px"}}>
+        <div style={{ display: "flex", alignItems: "center", width: "calc(100% - 200px)" }}>
+          <h1 className="text-lg font-semibold mb-1" style={{ marginRight: "50px" }}>{employee.employeeid}</h1>
+          <h1 className="text-lg font-semibold mb-1" style={{ marginRight: "50px" }}>{employee.name}</h1>
+          <h1 className="text-lg font-semibold mb-1">{employee.skills.map((skill) => skill.name).join(", ")}</h1>
+        </div>
+        <div style={{ width: "200px", display: "flex", alignItems: "center" }}>
+          {/* Dropdown menu for tasks */}
+          <select onChange={(e) => handleTaskSelection(e.target.value)} style={{ backgroundColor: "#3fbdf1", color: "white", padding: "5px", borderRadius: "5px", border: "none", marginRight: "10px" }}>
+            <option value="">Select Task</option>
+            {tasks.map((task) => (
+              <option key={task._id} value={task._id}>{task.title}</option>
+            ))}
+          </select>
+          {/* Assign Task button */}
+          <button onClick={() => handleAssignTask(employee)} style={{ backgroundColor: "#fec601", color: "white", padding: "5px", borderRadius: "5px", border: "none"}} disabled={!selectedTaskId}>Assign</button>
         </div>
       </div>
-      {/* <input
-        type="radio"
-        id={`employee-${index}`}
-        name="selectedEmployee"
-        className="mr-2"
-        onChange={() => handleEmployeeSelection(employee)}
-      /> */}
     </div>
   ));
-  
-  
-  
+
+  const handleAssignTask = (employee) => {
+    // Send a request to update the task with the selected employee ID
+    fetch(`http://localhost:8000/tasks/update/${selectedTaskId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ employeeid: employee.employeeid, skills: employee.skills }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Task assigned successfully:", data);
+        setSuccessMessage("Task assigned successfully");
+        setTimeout(() => {
+          setSuccessMessage("");
+          setSelectedTaskId(null)
+        }, 5000); // Clear success message after 5 seconds
+      })
+      .catch((err) => {
+        console.error("Error assigning task:", err);
+      });
+  };
+
   const headerStyle = {
     backgroundColor: "white",
     padding: "10px 20px",
@@ -99,29 +137,21 @@ export default function SkillSearchDetails() {
     fontWeight: "bold",
   };
 
-  return (<div>
-    <header style={headerStyle}>
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2px" }}>
-      <header style={{ flex: "0.1" ,marginLeft:"2px"}}>ID</header>
-      <header style={{ flex: "0.2",marginLeft:"10px" }}>Name</header>
-      <header style={{ flex: "1" }}>Skills</header>
-    </div>
-  </header>
+  return (
+    <div>
+      <header style={headerStyle}>
+        {successMessage && <div style={{ backgroundColor: "#fec601", color: "black", padding: "5px", borderRadius: "5px", marginTop: "10px", marginBottom: "10px" }}>{successMessage}</div>}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px" }}>
+          <header style={{ flex: "0.1" }}>ID</header>
+          <header style={{ flex: "0.2" }}>Name</header>
+          <header style={{ flex: "1" }}>Skills</header>
+        </div>
+      </header>
 
-          <div>
-            {/*
-            <button
-            // onClick={() => handleTaskAssignment()}
-            className="bg-blue-500 text-black rounded hover:bg-blue-600 focus:outline-none"
-            style={{ backgroundColor: "#f4978f", opacity: "100%", height: "40px", width: "300px", marginBottom: "10px" }}
-          >
-            Search for employee
-          </button> */}
-          </div>
-          <div>
-            {employeeElements}
-          </div>
+      <div>
+        {employeeElements}
+      </div>
+
     </div>
   );
-
 }

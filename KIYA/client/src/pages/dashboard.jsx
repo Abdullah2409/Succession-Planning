@@ -38,6 +38,10 @@ const ProfileCard = ({ user }) => {
 };
 
 const PendingTasks = ({ tasks }) => {
+  const { user } = useContext(AuthContext);
+  const userRole = user?.role.toLowerCase();
+  
+
   const taskElements = tasks.map((task, index) => (
     <Link
       to={`/dashboard/task/${task._id}`}
@@ -49,15 +53,29 @@ const PendingTasks = ({ tasks }) => {
     </Link>
   ));
 
+  
+  const isEmployer = userRole == "employer"
+
   return (
     <div className="p-md bg-[#F7F7F7] col-span-3 self-stretch border border-gray-300 rounded-lg">
       <div className="flex flex-col gap-2 mb-5">
-        <span className="font-bold">Pending Tasks</span>
+        <div className="flex justify-between items-center">
+          <span className="font-bold">Pending Tasks</span>
+          {isEmployer && (
+            <Link
+              to="/dashboard/create-task"
+              className="bg-secondary text-white px-3 py-1 rounded-md hover:bg-opacity-80 transition duration-300 ease-in-out"
+            >
+              Create Task
+            </Link>
+          )}
+        </div>
         {taskElements}
       </div>
     </div>
   );
 };
+
 
 export const SpecificTask = () => {
   const { user } = useContext(AuthContext);
@@ -83,7 +101,7 @@ export const SpecificTask = () => {
   }, []);
 
   const handleTaskCompletion = () => {
-    fetch(`${BACKEND_URL}/tasks/${id}`, {
+    fetch(`http://localhost:8000/tasks/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +118,7 @@ export const SpecificTask = () => {
   };
 
   return (
-    <div className="h-min p-md bg-[#F7F7F7] border border-gray-300 rounded-lg">
+    <div className=" h-min p-md bg-[#F7F7F7] border border-gray-300 rounded-lg">
       <div className="flex flex-col gap-2">
         <span className="font-bold">Task Details</span>
         <div className="bg-primary p-3 rounded-[22px] flex justify-between items-center">

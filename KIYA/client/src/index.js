@@ -19,7 +19,7 @@ import SkillSearchDetails from "./pages/skill_search_details";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not_found";
 import EmployeeFeedbackView from "./pages/feedback";
-
+import CreateTaskPage from "./pages/add_task";
 // Context States
 import AuthState from "./context/authstate";
 
@@ -58,6 +58,10 @@ function App() {
               <Route
                 path="/employee-feedback/:id"
                 element={<EmployeeFeebackDetails />}
+              />
+              <Route
+                path="/dashboard/create-task"
+                element={<CreateTaskPage />}
               />
               <Route path="/skill-search" element={<SkillSearch />} />
               <Route
