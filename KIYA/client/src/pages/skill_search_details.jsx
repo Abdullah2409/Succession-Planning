@@ -107,7 +107,7 @@ export default function SkillSearchDetails() {
 
   const handleAssignTask = (employee) => {
     // Send a request to update the task with the selected employee ID
-    fetch(`http://localhost:8000/tasks/update/${selectedTaskId}`, {
+    fetch(`${BACKEND_URL}/tasks/update/${selectedTaskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -4,7 +4,8 @@ import * as tf from '@tensorflow/tfjs';
 import AuthContext from "../../context/authcontext";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:8000";
+import { backendUrl } from "../../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 export default function EmployeeSuccession() {
   const navigate = useNavigate();

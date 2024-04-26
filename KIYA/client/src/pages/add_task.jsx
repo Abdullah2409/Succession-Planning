@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import { backendUrl } from "../utils/backendurl";
-// const BACKEND_URL = backendUrl;
+import { backendUrl } from "../utils/backendurl";
+const BACKEND_URL = backendUrl;
 
 const CreateTaskPage = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ const CreateTaskPage = () => {
     e.preventDefault();
     try {
       console.log(formData)
-      const response = await fetch(" http://localhost:8000/tasks/create", {
+      const response = await fetch(` ${BACKEND_URL}/tasks/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

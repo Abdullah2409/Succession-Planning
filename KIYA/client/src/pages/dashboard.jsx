@@ -101,7 +101,7 @@ export const SpecificTask = () => {
   }, []);
 
   const handleTaskCompletion = () => {
-    fetch(`http://localhost:8000/tasks/${id}`, {
+    fetch(`${BACKEND_URL}/tasks/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
