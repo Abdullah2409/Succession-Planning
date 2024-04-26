@@ -18,7 +18,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors(corsOptions)); // gives access to allowed orgins only
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
+// app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Defining routes
 app.use("/users", userRoutes);
@@ -40,4 +40,4 @@ mongoose
   )
   .catch((error) => console.log(error.message));
 
-module.exports = app;
+// module.exports = app;
