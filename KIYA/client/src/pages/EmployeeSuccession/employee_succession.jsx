@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as tf from '@tensorflow/tfjs';
 import AuthContext from "../../context/authcontext";
 import axios from "axios";
+import successionSVG from "../../assets/succession.svg";
 
 import { backendUrl } from "../../utils/backendurl";
 const BACKEND_URL = backendUrl;
@@ -119,7 +120,7 @@ export default function EmployeeSuccession() {
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-bold">EMPLOYEE SUCCESSION</h1>
         </div>
-
+        <img src={successionSVG} alt="Succession" style={{ width: "200px" }} />
         <div className="my-5">
           <p>Select Features as Promotion Criteria</p>
           <div className="p-5 mt-3 rounded">
