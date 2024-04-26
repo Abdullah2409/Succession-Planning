@@ -24,12 +24,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`min-w-56 max-w-56 min-h-screen p-lg text-[#fff] text-opacity-80 tracking-normal font-light text-[13px] flex bg-primary flex-col items-center`}
+      className={`min-w-56 max-w-56 min-h-screen p-lg text-[#fff] text-opacity-80 tracking-normal font-light text-[13px] flex bg-primary flex-col items-center  m-0 p-0 w-1/4 bg-gray-300 h-full`}
     >
       <div className="flex flex-col w-full">
         <Link
           to="/dashboard"
-          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 m-3 ${
             location.pathname === "/dashboard" ? "bg-white bg-opacity-10" : ""
           }`}
         >
