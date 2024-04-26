@@ -18,6 +18,8 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors(corsOptions)); // gives access to allowed orgins only
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 // Defining routes
 app.use("/users", userRoutes);
 app.use("/employees", employeeRoutes);
@@ -37,3 +39,5 @@ mongoose
     app.listen(PORT, () => console.log("Server running on port " + PORT))
   )
   .catch((error) => console.log(error.message));
+
+module.exports = app;
