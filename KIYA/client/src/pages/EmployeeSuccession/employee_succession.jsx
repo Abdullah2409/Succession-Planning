@@ -20,8 +20,10 @@ export default function EmployeeSuccession() {
   useEffect(() => {
     async function loadModel() {
       try {
-        const loadedModel = await tf.loadLayersModel(`${BACKEND_URL}/my-promotion-model/model.json`);
-        setModel(loadedModel);
+        const modelUrl = process.env.PUBLIC_URL + '/my-promotion-model/model.json';
+        const loadedModel = await tf.loadLayersModel(modelUrl);
+
+        setModel(loadedModel); 
         setLoadingModel(false); // Model loaded successfully
       } catch (error) {
         console.error('Error loading the model:', error);

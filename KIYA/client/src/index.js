@@ -19,7 +19,10 @@ import SkillSearchDetails from "./pages/skill_search_details";
 import Profile from "./pages/profile";
 import NotFound from "./pages/not_found";
 import EmployeeFeedbackView from "./pages/feedback";
+
 import CreateTaskPage from "./pages/add_task";
+import LeadershipBoard from "./pages/LeadershipBoard"; // Added LeadershipBoard import
+
 // Context States
 import AuthState from "./context/authstate";
 
@@ -69,6 +72,7 @@ function App() {
                 element={<SkillSearchDetails />}
               />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/leadership-board" element={<LeadershipBoard />} /> {/* Added LeadershipBoard route */}
             </Route>
 
             <Route path="/signin" element={<SignIn />} />

@@ -109,6 +109,15 @@ export default function Navbar() {
           </Link>
         )}
 
+        <Link
+          to="/leadership-board"
+          className={`flex px-sm py-[4px] items-center text-white mb-6 rounded transition duration-300 hover:bg-white hover:bg-opacity-10 ${
+            location.pathname === "/leadership-board" ? "bg-white bg-opacity-10" : ""
+          }`}
+        >
+          <FaChartBar className="mr-4" /> Leadership Board
+        </Link>
+
         <div className="flex justify-between">
           <Link
             to="/profile"
